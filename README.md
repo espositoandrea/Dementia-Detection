@@ -1,4 +1,9 @@
-# Diagnosing Dementia Through the Automatic Analysis of Amyloid PET Scans
+<div align="center">
+    <h1>Diagnosing Dementia Through the Automatic Analysis of Amyloid PET Scans</h1>
+  </p>Exam Project: <em>Software Engineering for AI-Enabled System</em><p>
+  <p><sup><a href="https://github.com/espositoandrea/Detecting-Alzheimer-Using-Amiloyd-PET-Scans">original repository</a></sup></p>
+</div>
+
 
 ## License
 
