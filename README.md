@@ -1,6 +1,11 @@
 <div align="center">
     <h1>Diagnosing Dementia Through the Automatic Analysis of Amyloid PET Scans</h1>
-  </p>Exam Project: <em>Software Engineering for AI-Enabled System</em><p>
+    <p>
+        <a href="https://github.com/espositoandrea">Andrea Esposito</a> <a href="mailto:a.esposito39@studenti.uniba.it"><sup>✉️</sup></a>,
+        <a href="https://github.com/montanarograziano">Graziano Montanaro</a>,
+        <a href="https://github.com/niccolopetti">Niccolò Petti</a>
+    </p>
+  <p>Exam Project: <em>Software Engineering for AI-Enabled System</em></p>
   <p><sup><a href="https://github.com/espositoandrea/Detecting-Alzheimer-Using-Amiloyd-PET-Scans">original repository</a></sup></p>
 </div>
 
