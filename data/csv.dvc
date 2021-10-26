@@ -1,0 +1,5 @@
+outs:
+- md5: f478333518369cf25db53c65d4f1aa6c.dir
+  size: 1173963
+  nfiles: 7
+  path: csv
