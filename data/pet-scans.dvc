@@ -1,0 +1,5 @@
+outs:
+- md5: fbccbf9b7bd7cdd436f6e75ca07175f1.dir
+  size: 4765864468
+  nfiles: 45
+  path: pet-scans
