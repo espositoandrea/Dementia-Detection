@@ -1,0 +1,9 @@
+stages:
+  labelling:
+    cmd: python src/labelling.py data/csv/clinical-data.csv data/csv/pup.csv -o data/labels.csv
+    deps:
+    - data/csv/clinical-data.csv
+    - data/csv/pup.csv
+    - src/labelling.py
+    outs:
+    - data/labels.csv

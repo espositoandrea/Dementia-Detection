@@ -1,0 +1,18 @@
+schema: '2.0'
+stages:
+  labelling:
+    cmd: python src/labelling.py data/csv/clinical-data.csv data/csv/pup.csv -o data/labels.csv
+    deps:
+    - path: data/csv/clinical-data.csv
+      md5: 8fa7576fc3a3814f333348ba7998f0e1
+      size: 813380
+    - path: data/csv/pup.csv
+      md5: 1a723b47b127c02cd9e77f5fabde35cf
+      size: 203576
+    - path: src/labelling.py
+      md5: 8e196563c14a5765b2a9c9ece3f39a3c
+      size: 3398
+    outs:
+    - path: data/labels.csv
+      md5: fb5f091f2626760ca2f20ac475ec9ad3
+      size: 82527
