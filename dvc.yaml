@@ -1,0 +1,20 @@
+stages:
+  labelling:
+    cmd: python src/labelling.py data/csv/clinical-data.csv data/csv/pup.csv -o data/labels.csv
+    deps:
+    - data/csv/clinical-data.csv
+    - data/csv/pup.csv
+    - src/labelling.py
+    outs:
+    - data/labels.csv
+  prepare:
+    cmd: python src/prepare.py data/raw data/labels.csv data/prepared
+    deps:
+    - data/labels.csv
+    - data/raw
+    - src/prepare.py
+    params:
+    - prepare.seed
+    - prepare.num_samples
+    outs:
+    - data/prepared
