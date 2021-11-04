@@ -1,0 +1,3 @@
+prepare:
+  seed: 1234
+  num_samples: 20

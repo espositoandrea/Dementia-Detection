@@ -7,6 +7,8 @@ name = "pypi"
 pandas = "*"
 numpy = "*"
 pyyaml = "*"
+scipy = "*"
+nibabel = "*"
 
 [dev-packages]
 

@@ -10,9 +10,31 @@ stages:
       md5: 1a723b47b127c02cd9e77f5fabde35cf
       size: 203576
     - path: src/labelling.py
-      md5: 8e196563c14a5765b2a9c9ece3f39a3c
-      size: 3398
+      md5: b0db448cb8d91503c5d71fbecabec53d
+      size: 3604
     outs:
     - path: data/labels.csv
       md5: fb5f091f2626760ca2f20ac475ec9ad3
       size: 82527
+  prepare:
+    cmd: python src/prepare.py data/raw data/labels.csv data/prepared
+    deps:
+    - path: data/labels.csv
+      md5: fb5f091f2626760ca2f20ac475ec9ad3
+      size: 82527
+    - path: data/raw
+      md5: 876ea8739f58f58d75e9e9c39f427f30.dir
+      size: 17375504495
+      nfiles: 102
+    - path: src/prepare.py
+      md5: 55e4c11b0885d00385078ee750cb683e
+      size: 4663
+    params:
+      params.yaml:
+        prepare.num_samples: 20
+        prepare.seed: 1234
+    outs:
+    - path: data/prepared
+      md5: 16ec8a06c88ba9f17e2fa2bd386787e8.dir
+      size: 441652247
+      nfiles: 42
