@@ -18,6 +18,16 @@ stages:
     - prepare.num_samples
     outs:
     - data/prepared
+  extractframes:
+    cmd: python src/images2frames.py data/prepared/labelled-images.csv data/prepared/scans data/frames
+    deps:
+    - data/prepared/labelled-images.csv
+    - data/prepared/scans
+    - src/images2frames.py
+    params:
+    - extractframes.n_frames
+    outs:
+    - data/frames
   train:
     cmd: python src/train.py data/prepared
     deps:
@@ -27,4 +37,3 @@ stages:
     - train.batch_size
     outs:
     - data/train
-

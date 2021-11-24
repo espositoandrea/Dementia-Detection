@@ -9,6 +9,7 @@ numpy = "*"
 pyyaml = "*"
 scipy = "*"
 nibabel = "*"
+opencv-python = "*"
 
 [dev-packages]
 

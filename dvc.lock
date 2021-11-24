@@ -23,18 +23,40 @@ stages:
       md5: fb5f091f2626760ca2f20ac475ec9ad3
       size: 82527
     - path: data/raw
-      md5: 876ea8739f58f58d75e9e9c39f427f30.dir
-      size: 17375504495
-      nfiles: 102
+      md5: 5e6b4d71e0e68fe8f98c0af0e8fb6bdb.dir
+      size: 17375510643
+      nfiles: 103
     - path: src/prepare.py
-      md5: 55e4c11b0885d00385078ee750cb683e
-      size: 4663
+      md5: 3bdaf1348bac65048fb3f49bf49892c5
+      size: 4672
     params:
       params.yaml:
         prepare.num_samples: 20
         prepare.seed: 1234
     outs:
     - path: data/prepared
-      md5: 16ec8a06c88ba9f17e2fa2bd386787e8.dir
-      size: 441652247
+      md5: cb8008d8acd35f6b901e2486e9df9b7c.dir
+      size: 441652301
       nfiles: 42
+  extractframes:
+    cmd: python src/images2frames.py data/prepared/labelled-images.csv data/prepared/scans
+      data/frames
+    deps:
+    - path: data/prepared/labelled-images.csv
+      md5: e5096ddb47ed9a3df1e82cbb39f855fa
+      size: 1747
+    - path: data/prepared/scans
+      md5: 8e853f4d0b92c566717ef9763ce0aabc.dir
+      size: 441650176
+      nfiles: 40
+    - path: src/images2frames.py
+      md5: 50c5006e381ad2f90b5e59702b5f3454
+      size: 3741
+    params:
+      params.yaml:
+        extractframes.n_frames: 20
+    outs:
+    - path: data/frames
+      md5: 90fb34dd9f026be0b3852ff1e3755ddc.dir
+      size: 52584000
+      nfiles: 800
