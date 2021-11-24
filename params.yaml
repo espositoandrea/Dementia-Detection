@@ -1,3 +1,6 @@
 prepare:
   seed: 1234
   num_samples: 20
+train:
+  seed: 1234
+  batch_size: 128

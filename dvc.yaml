@@ -18,3 +18,13 @@ stages:
     - prepare.num_samples
     outs:
     - data/prepared
+  train:
+    cmd: python src/train.py data/prepared
+    deps:
+    - data/prepared
+    - src/train.py
+    params:
+    - train.batch_size
+    outs:
+    - data/train
+
