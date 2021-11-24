@@ -10,7 +10,7 @@ import random
 import tensorflow as tf
 
 from tensorflow import keras
-from tensorflow.keras import layers 
+from tensorflow.keras import layers
 
 parser = argparse.ArgumentParser("Defining and training the model")
 parser.add_argument('data')
@@ -27,41 +27,36 @@ with open(args.params, 'r') as f:
 
 random.seed(params['seed'])
 
-prepared_dataset = 
-
 def get_model(width=128, height=128):
     """Build a convolutional neural network model based on the Zunhair et al model.
     References
     ----------
     - https://arxiv.org/abs/2007.13224
     """
+    model = tf.keras.Sequential([
+        keras.Input((width, height, 1)),    
+        layers.Conv2D(filters=64, kernel_size=3, activation="relu"),
+        layers.MaxPool2D(pool_size=2),
+        layers.BatchNormalization(),
 
-    inputs = keras.Input((width, height, 1))
+        layers.Conv2D(filters=64, kernel_size=3, activation="relu"),
+        layers.MaxPool2D(pool_size=2),
+        layers.BatchNormalization(),
 
-    x = layers.Conv2D(filters=64, kernel_size=3, activation="relu")(inputs)
-    x = layers.MaxPool2D(pool_size=2)(x)
-    x = layers.BatchNormalization()(x)
+        layers.Conv2D(filters=128, kernel_size=3, activation="relu"),
+        layers.MaxPool2D(pool_size=2),
+        layers.BatchNormalization(),
 
-    x = layers.Conv2D(filters=64, kernel_size=3, activation="relu")(x)
-    x = layers.MaxPool2D(pool_size=2)(x)
-    x = layers.BatchNormalization()(x)
+        layers.Conv2D(filters=256, kernel_size=3, activation="relu"),
+        layers.MaxPool2D(pool_size=2),
+        layers.BatchNormalization(),
 
-    x = layers.Conv2D(filters=128, kernel_size=3, activation="relu")(x)
-    x = layers.MaxPool2D(pool_size=2)(x)
-    x = layers.BatchNormalization()(x)
+        layers.GlobalAveragePooling2D(),
+        layers.Dense(units=512, activation="relu"),
+        layers.Dropout(0.3),
+        layers.Dense(units=1, activation="sigmoid")
+    ])
 
-    x = layers.Conv2D(filters=256, kernel_size=3, activation="relu")(x)
-    x = layers.MaxPool2D(pool_size=2)(x)
-    x = layers.BatchNormalization()(x)
-
-    x = layers.GlobalAveragePooling2D()(x)
-    x = layers.Dense(units=512, activation="relu")(x)
-    x = layers.Dropout(0.3)(x)
-
-    outputs = layers.Dense(units=1, activation="sigmoid")(x)
-
-    # Define the model.
-    model = keras.Model(inputs, outputs, name="3dcnn")
     return model
 
 # Compile model.

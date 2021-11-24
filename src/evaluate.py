@@ -26,18 +26,22 @@ with open(args.params, 'r') as f:
 
 train_ds = tf.keras.utils.image_dataset_from_directory(
   args.data,
-  validation_split=0.2,
+  validation_split= params['validation_split'],
   subset="training",
   seed=params['seed'],
   image_size=(128, 128),
+  color_mode = "grayscale",
+  label_mode = "binary",
   batch_size=params['batch_size'])
 
 val_ds = tf.keras.utils.image_dataset_from_directory(
   args.data,
-  validation_split=0.2,
+  validation_split=params['validation_split'],
   subset="validation",
   seed=params['seed'],
   image_size=(128, 128),
+  color_mode = "grayscale",
+  label_mode = "binary",
   batch_size=params['batch_size'])
 
 train_ds = train_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
