@@ -10,6 +10,7 @@ pyyaml = "*"
 scipy = "*"
 nibabel = "*"
 fastapi = {extras = ["all"], version = "*"}
+python-multipart = "*"
 
 [dev-packages]
 
