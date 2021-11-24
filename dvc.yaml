@@ -43,7 +43,7 @@ stages:
     - evaluate.max_epochs
     outs:
     - data/evaluation
-  evaluate:
+  train:
     cmd: python src/train.py data/frames data/model
     deps:
     - data/frames
