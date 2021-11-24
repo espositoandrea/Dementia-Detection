@@ -9,7 +9,7 @@ import yaml
 
 model = get_model()
 
-parser = argparse.ArgumentParser("Defining and training the model")
+parser = argparse.ArgumentParser("Defining and training the model, tracking metrics with MLFlow.")
 parser.add_argument('data')
 parser.add_argument("outdir")
 parser.add_argument("--params", "-p", default='params.yaml')
@@ -19,7 +19,7 @@ outdir = Path(args.outdir)
 shutil.rmtree(outdir, ignore_errors=True)
 outdir.mkdir(parents=True, exist_ok=True)
 
-filename = outdir / "model.h5"
+filename = outdir / "weights.h5"
 
 with open(args.params, 'r') as f:
     params = yaml.safe_load(f)['evaluate']
@@ -73,18 +73,18 @@ history = model.fit(
     verbose=1,
     callbacks=[checkpoint_cb, early_stopping_cb],
 )
-# tf.keras.backend.clear_session()
-# mlflow.log_artifacts(str(Path(filename).parent))
+#tf.keras.backend.clear_session()
+#mlflow.log_artifacts(str(Path(filename).parent))
 
-# model.load_weights(filename)
-# metrics = model.evaluate(x_test, y_test)
-# mlflow.log_metric("val_loss", metrics[0])
-# mlflow.log_metric("val_accuracy", metrics[1])
+#model.load_weights(filename)
+#metrics = model.evaluate(x_test, y_test)
+#mlflow.log_metric("val_loss", metrics[0])
+#mlflow.log_metric("val_accuracy", metrics[1])
 
-# predictions = model.predict(x_test)
-# matrix = tf.math.confusion_matrix(y_test, predictions)
-# t_n, f_p, f_n, t_p = matrix.numpy().ravel()
-# mlflow.log_metric("confusion.tn", t_n)
-# mlflow.log_metric("confusion.fp", f_p)
-# mlflow.log_metric("confusion.fn", f_n)
-# mlflow.log_metric("confusion.tp", t_p)
+#predictions = model.predict(x_test)
+#matrix = tf.math.confusion_matrix(y_test, predictions)
+#t_n, f_p, f_n, t_p = matrix.numpy().ravel()
+#mlflow.log_metric("confusion.tn", t_n)
+#mlflow.log_metric("confusion.fp", f_p)
+#mlflow.log_metric("confusion.fn", f_n)
+#mlflow.log_metric("confusion.tp", t_p)

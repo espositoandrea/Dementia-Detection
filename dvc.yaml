@@ -37,6 +37,25 @@ stages:
     - evaluate.seed
     - evaluate.batch_size
     - evaluate.initial_learning_rate
+    - evaluate.validation_split
+    - evaluate.patience
+    - evaluate.decay_rate
+    - evaluate.max_epochs
     outs:
     - data/evaluation
+  evaluate:
+    cmd: python src/train.py data/frames data/model
+    deps:
+    - data/frames
+    - src/evaluate.py
+    params:
+    - train.seed
+    - train.batch_size
+    - train.initial_learning_rate
+    - train.validation_split
+    - train.patience
+    - train.decay_rate
+    - train.max_epochs
+    outs:
+    - data/model
 
