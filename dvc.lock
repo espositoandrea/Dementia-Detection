@@ -50,13 +50,13 @@ stages:
       size: 441650176
       nfiles: 40
     - path: src/images2frames.py
-      md5: 50c5006e381ad2f90b5e59702b5f3454
-      size: 3741
+      md5: 6391cebc56a997cead8fcb2842b760cc
+      size: 3825
     params:
       params.yaml:
         extractframes.n_frames: 20
     outs:
     - path: data/frames
-      md5: 90fb34dd9f026be0b3852ff1e3755ddc.dir
-      size: 52584000
+      md5: 590eb50dfbe1d40ad09184d1cd5aa90b.dir
+      size: 6751838
       nfiles: 800

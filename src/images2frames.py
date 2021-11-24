@@ -112,4 +112,5 @@ if __name__ == '__main__':
         fold_dir = outdir / row['label']
         fold_dir.mkdir(exist_ok=True)
         for frame in range(img.shape[2]):
-            cv2.imwrite(str(fold_dir / f"{row['filename']}_frame{frame}.tiff"), img[:, :, frame])
+            formatted = (img[:, :, frame] * 255 / np.max(img[:, :, frame])).astype('uint8')
+            cv2.imwrite(str(fold_dir / f"{row['filename']}_frame{frame}.png"), formatted)
