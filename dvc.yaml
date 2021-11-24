@@ -28,8 +28,19 @@ stages:
     - extractframes.n_frames
     outs:
     - data/frames
+  evaluate:
+    cmd: python src/evaluate.py data/frames data/evaluation
+    deps:
+    - data/frames
+    - src/evaluate.py
+    params:
+    - evaluate.seed
+    - evaluate.batch_size
+    - evaluate.initial_learning_rate
+    outs:
+    - data/evaluation
   train:
-    cmd: python src/train.py data/prepared
+    cmd: python src/train.py data/frames 
     deps:
     - data/prepared
     - src/train.py

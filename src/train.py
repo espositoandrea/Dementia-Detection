@@ -13,8 +13,7 @@ from tensorflow import keras
 from tensorflow.keras import layers 
 
 parser = argparse.ArgumentParser("Defining and training the model")
-parser.add_argument('prepared_data_folder')
-parser.add_argument('-o', '--output', type=argparse.FileType('w'), default='-')
+parser.add_argument('data')
 parser.add_argument("outdir")
 parser.add_argument("--params", "-p", default='params.yaml')
 args = parser.parse_args()

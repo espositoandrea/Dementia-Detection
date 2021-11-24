@@ -3,6 +3,13 @@ prepare:
   num_samples: 20
 extractframes:
   n_frames: 20
+evaluate:
+  seed: 1234
+  batch_size: 128
+  initial_learning_rate: 5e-5
+  decay_rate: 0.96
+  patience: 35
+  max_epochs: 10000
 train:
   seed: 1234
   batch_size: 128
