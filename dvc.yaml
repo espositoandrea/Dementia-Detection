@@ -47,7 +47,7 @@ stages:
     cmd: python src/train.py data/frames data/model
     deps:
     - data/frames
-    - src/evaluate.py
+    - src/train.py
     params:
     - train.seed
     - train.batch_size
