@@ -33,6 +33,9 @@ stages:
     deps:
     - data/frames
     - src/evaluate.py
+    metrics:
+    - data/evaluation/scores.json:
+        cache: false
     params:
     - evaluate.seed
     - evaluate.batch_size
@@ -42,7 +45,7 @@ stages:
     - evaluate.decay_rate
     - evaluate.max_epochs
     outs:
-    - data/evaluation
+    - data/evaluation/weights.h5
   train:
     cmd: python src/train.py data/frames data/model
     deps:
@@ -58,4 +61,3 @@ stages:
     - train.max_epochs
     outs:
     - data/model
-

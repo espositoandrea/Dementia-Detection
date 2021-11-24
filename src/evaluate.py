@@ -5,6 +5,7 @@ import argparse
 import shutil
 from pathlib import Path
 import yaml
+import json
 
 
 model = get_model()
@@ -73,11 +74,14 @@ history = model.fit(
     verbose=1,
     callbacks=[checkpoint_cb, early_stopping_cb],
 )
+
 #tf.keras.backend.clear_session()
 #mlflow.log_artifacts(str(Path(filename).parent))
 
-#model.load_weights(filename)
-#metrics = model.evaluate(x_test, y_test)
+model.load_weights(filename)
+metrics = model.evaluate(val_ds)
+with open(outdir / "scores.json", "w") as f:
+    json.dump(dict(zip(model.metrics_names, metrics)), f, indent=4)
 #mlflow.log_metric("val_loss", metrics[0])
 #mlflow.log_metric("val_accuracy", metrics[1])
 
