@@ -4,12 +4,17 @@ import numpy as np
 import nibabel as nib
 from pathlib import Path
 from tempfile import NamedTemporaryFile
+import cv2
 import shutil
-from typing import Callable
+import tensorflow as tf
+from .images2frames import resize_to_input_shape, normalize
+
+model = tf.keras.models.load_model('data/model/memento.h5')
+
 
 def classify(image):
-    import random
-    return random.uniform(0, 1)
+    return list(map(float, model.predict(image)))
+
 
 def save_upload_file_tmp(upload_file: UploadFile) -> Path:
     try:
@@ -21,7 +26,9 @@ def save_upload_file_tmp(upload_file: UploadFile) -> Path:
         upload_file.file.close()
     return tmp_path
 
+
 app = FastAPI()
+
 
 @app.post("/predict")
 def predict(
@@ -35,11 +42,12 @@ def predict(
     tmp_path = save_upload_file_tmp(image)
     try:
         res = {
-            "probability": classify(None)
+            "probability": classify(np.expand_dims(cv2.imread(str(tmp_path), cv2.IMREAD_GRAYSCALE), 0))[0]
         }
     finally:
         tmp_path.unlink()
     return res if format == "json" else res["probability"]
+
 
 @app.post("/report")
 def report(
@@ -52,16 +60,20 @@ def report(
 ):
     tmp_path = save_upload_file_tmp(scan)
     try:
-        nifti = nib.load(tmp_path)
-        image = nifti.get_fdata()
+        image = nib.load(tmp_path).get_fdata()
+        if len(image.shape) == 4:
+            image = np.mean(image, axis=3)
+        image = normalize(image)
+        image = resize_to_input_shape(image, n_frames=20)
         res = {
-            "probabilities": [classify(i) for i in range(20)],
+            "probabilities": classify(np.vstack(np.expand_dims(image[:, :, i], 0) for i in range(20))),
         }
         res["final_probability"] = np.mean(res["probabilities"])
     finally:
         tmp_path.unlink()
-        
+
     return res
+
 
 @app.get("/")
 def root():
