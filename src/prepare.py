@@ -101,7 +101,7 @@ for i, path in enumerate(paths):
     # Save the new generated image (as: ORIGINALE_modID.4dfp.img)
     nib.save(to_save_img, OUT_DIR / 'scans' /
              f"{str(path.name).split('.')[0]}_mod{i}.4dfp.nii")
-    labelled_files.append((f"{str(path.name).split('.')[0]}_mod{i}", True))
+    labelled_files.append((f"{str(path.name).split('.')[0]}_mod{i}.4dfp.nii", True))
 
 
 images = [DATA_DIR / i /
