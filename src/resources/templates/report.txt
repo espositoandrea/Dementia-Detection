@@ -1,0 +1,47 @@
+     Alzheimer’s Disease Detection: Probability Report
+
+
+{}
+
+
+     This  is a report for Alzheimer’s disease generated re‐
+garding the patient [OMISSIS] generated from the MEMENTO  AI
+model from the automatic analysis of the scan
+“{}”.
+
+
+   ┌──────────────────────────────────────────────────────┐
+   │                 Probability by slice                 │
+   ├──────────┬──────────┬──────────┬──────────┬──────────┤
+   │ SLICE 1  │ SLICE 2  │ SLICE 3  │ SLICE 4  │ SLICE 5  │
+   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   │{}│{}│{}│{}│{}│
+   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   │ SLICE 6  │ SLICE 7  │ SLICE 8  │ SLICE 9  │ SLICE 10 │
+   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   │{}│{}│{}│{}│{}│
+   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   │ SLICE 11 │ SLICE 12 │ SLICE 13 │ SLICE 14 │ SLICE 15 │
+   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   │{}│{}│{}│{}│{}│
+   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   │ SLICE 16 │ SLICE 17 │ SLICE 18 │ SLICE 19 │ SLICE 20 │
+   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   │{}│{}│{}│{}│{}│
+   └──────────┴──────────┴──────────┴──────────┴──────────┘
+
+
+
+                     Final Probability:
+{}
+
+
+
+     This  is  an automatically generated report. This can’t
+be considered a valid medical advice: nonetheless,  if  this
+report  signals that you have a great probability of suffer‐
+ing from Alzheimer’s disease, please contact your  physician
+to execute more tests.
+
+                                                     MEMENTO
+                          Amyloid PET for Dementia Detection

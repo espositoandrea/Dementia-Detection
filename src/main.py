@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, UploadFile, File
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 import numpy as np
 import nibabel as nib
 from pathlib import Path
@@ -7,6 +7,7 @@ from tempfile import NamedTemporaryFile
 import cv2
 import shutil
 import tensorflow as tf
+import datetime
 from .images2frames import resize_to_input_shape, normalize
 
 model = tf.keras.models.load_model('data/model/memento.h5')
@@ -69,6 +70,25 @@ def report(
             "probabilities": classify(np.vstack(np.expand_dims(image[:, :, i], 0) for i in range(20))),
         }
         res["final_probability"] = np.mean(res["probabilities"])
+
+        if format == "txt":
+            with open(Path(__file__).parent / "resources/templates/report.txt") as f:
+                template = f.read()
+            res = PlainTextResponse(template.format(
+                str(datetime.datetime.now(datetime.timezone.utc)).center(60),
+                scan.filename,
+                *list(map(lambda x: f"{round(x*100, 2)}%".center(10), res["probabilities"])),
+                f"{round(res['final_probability'] * 100, 2)}%".center(60)
+            ), media_type="text/plain; charset=utf-8")
+        elif format == "html":
+            with open(Path(__file__).parent / "resources/templates/report.html") as f:
+                template = f.read()
+            res = HTMLResponse(template.format(
+                str(datetime.datetime.now(datetime.timezone.utc)).center(60),
+                scan.filename,
+                *list(map(lambda x: f"{round(x*100, 2)}%".center(10), res["probabilities"])),
+                f"{round(res['final_probability'] * 100, 2)}%".center(60)
+            ))
     finally:
         tmp_path.unlink()
 
@@ -82,8 +102,22 @@ def root():
         <input type="file" required name="image">
         <input type="submit">
     </form>
+    <div>
+    <h1>Full report</h1>
+    <h2>JSON</h2>
     <form action="/report" method="post" enctype="multipart/form-data">
         <input type="file" required name="scan">
         <input type="submit">
     </form>
+    <h2>TXT</h2>
+    <form action="/report?format=txt" method="post" enctype="multipart/form-data">
+        <input type="file" required name="scan">
+        <input type="submit">
+    </form>
+    <h2>HTML</h2>
+    <form action="/report?format=html" method="post" enctype="multipart/form-data">
+        <input type="file" required name="scan">
+        <input type="submit">
+    </form>
+    </div>
     ''')
