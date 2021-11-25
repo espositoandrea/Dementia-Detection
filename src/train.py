@@ -19,27 +19,11 @@ outdir = Path(args.outdir)
 shutil.rmtree(outdir, ignore_errors=True)
 outdir.mkdir(parents=True, exist_ok=True)
 
-filename = outdir / "weights.h5"
-
 with open(args.params, 'r') as f:
     params = yaml.safe_load(f)['train']
 
 train_ds = tf.keras.utils.image_dataset_from_directory(
     args.data,
-    validation_split=params['validation_split'],
-    subset="training",
-    seed=params['seed'],
-    shuffle=True,
-    image_size=(128, 128),
-    color_mode="grayscale",
-    label_mode="binary",
-    batch_size=params['batch_size']
-)
-
-val_ds = tf.keras.utils.image_dataset_from_directory(
-    args.data,
-    validation_split=params['validation_split'],
-    subset="validation",
     seed=params['seed'],
     shuffle=True,
     image_size=(128, 128),
@@ -49,7 +33,6 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
 )
 
 train_ds = train_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
-val_ds = val_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
 
 # mlflow.log_param("initial_learning_rate", initial_learning_rate)
 lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
@@ -64,22 +47,13 @@ model.compile(
     metrics=['accuracy'],
 )
 
-# Define callbacks.
-checkpoint_cb = keras.callbacks.ModelCheckpoint(
-    filename, save_best_only=True
-)
-early_stopping_cb = keras.callbacks.EarlyStopping(
-    monitor="val_accuracy", patience=params["patience"])
-
 # Train the model, doing validation at the end of each epoch
 history = model.fit(
     train_ds,
-    validation_data=val_ds,
-    epochs=params["max_epochs"],
+    epochs=params["epochs"],
     shuffle=True,
     verbose=1,
-    callbacks=[checkpoint_cb, early_stopping_cb],
 )
 
 # Save the model
-model.save(outdir / 'memento')
+model.save(outdir / 'memento.h5')

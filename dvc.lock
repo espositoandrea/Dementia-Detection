@@ -68,8 +68,8 @@ stages:
       size: 6751838
       nfiles: 800
     - path: src/evaluate.py
-      md5: 4ef7443315145e642984e59dfd070120
-      size: 2875
+      md5: 553ab8097e9226d034184152f0594ecb
+      size: 2880
     params:
       params.yaml:
         evaluate.batch_size: 128
@@ -81,10 +81,10 @@ stages:
         evaluate.validation_split: 0.2
     outs:
     - path: data/evaluation/scores.json
-      md5: c9525c92e309319e1056e221c91207fa
-      size: 53
+      md5: 0076fc1c18525ed4aaaff616556a8dab
+      size: 58
     - path: data/evaluation/weights.h5
-      md5: 763a060224dbf2f9fc04bd2d5539d765
+      md5: 805a5a62ec12134e9f8af99a1d6b406e
       size: 6585792
   train:
     cmd: python src/train.py data/frames data/model
@@ -94,19 +94,16 @@ stages:
       size: 6751838
       nfiles: 800
     - path: src/train.py
-      md5: 25737337bc231b15324df55c6d424994
-      size: 2783
+      md5: 543d36e52959454d4cb8c0a4263240d7
+      size: 1469
     params:
       params.yaml:
         train.batch_size: 128
         train.decay_rate: 0.96
+        train.epochs: 40
         train.initial_learning_rate: 5e-05
-        train.max_epochs: 10000
-        train.patience: 35
         train.seed: 1234
-        train.validation_split: 0.2
     outs:
-    - path: data/model
-      md5: cecc75570ebca980208101af16095e65.dir
-      size: 13541142
-      nfiles: 5
+    - path: data/model/memento.h5
+      md5: ad0a6c173836d8236798b2215e1956d7
+      size: 6585792
