@@ -1,3 +1,9 @@
-.dvc
-data/
-!data/model/model.h5
+/.dvc
+/data/csv
+/data/csv.dvc
+/data/evaluation
+/data/frames
+/data/labels.csv
+/data/prepared
+/data/raw
+/data/raw.dvc
