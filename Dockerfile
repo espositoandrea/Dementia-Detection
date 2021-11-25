@@ -19,5 +19,5 @@ RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --skip-lock
 ENV PATH="/code/.venv/bin:$PATH"
 
 COPY ./src /code/app
-COPY ./data/model/memento.h5 /code/app/data/model/memento.h5
+COPY ./data/model/memento.h5 /code/data/model/memento.h5
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
