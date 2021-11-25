@@ -11,8 +11,11 @@ scipy = "*"
 nibabel = "*"
 fastapi = {extras = ["all"], version = "*"}
 python-multipart = "*"
+opencv-python = "*"
+tensorflow = "*"
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.9"

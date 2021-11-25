@@ -18,3 +18,44 @@ stages:
     - prepare.num_samples
     outs:
     - data/prepared
+  extractframes:
+    cmd: python src/images2frames.py data/prepared/labelled-images.csv data/prepared/scans data/frames
+    deps:
+    - data/prepared/labelled-images.csv
+    - data/prepared/scans
+    - src/images2frames.py
+    params:
+    - extractframes.n_frames
+    outs:
+    - data/frames
+  evaluate:
+    cmd: python src/evaluate.py data/frames data/evaluation
+    deps:
+    - data/frames
+    - src/evaluate.py
+    metrics:
+    - data/evaluation/scores.json:
+        cache: false
+    params:
+    - evaluate.seed
+    - evaluate.batch_size
+    - evaluate.initial_learning_rate
+    - evaluate.validation_split
+    - evaluate.patience
+    - evaluate.decay_rate
+    - evaluate.max_epochs
+    outs:
+    - data/evaluation/weights.h5
+  train:
+    cmd: python src/train.py data/frames data/model
+    deps:
+    - data/frames
+    - src/train.py
+    params:
+    - train.seed
+    - train.batch_size
+    - train.initial_learning_rate
+    - train.decay_rate
+    - train.epochs
+    outs:
+    - data/model/memento.h5
