@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query, UploadFile, File
 from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.params import Query
 import numpy as np
 import nibabel as nib
 from pathlib import Path
@@ -8,9 +9,21 @@ import cv2
 import shutil
 import tensorflow as tf
 import datetime
+import enum
 from .images2frames import resize_to_input_shape, normalize
 
 model = tf.keras.models.load_model('data/model/memento.h5')
+
+
+class PredictionFormatEnum(str, enum.Enum):
+    TXT = "txt"
+    JSON = "json"
+
+
+class ReportFormatEnum(str, enum.Enum):
+    TXT = "txt"
+    JSON = "json"
+    HTML = "html"
 
 
 def classify(image):
@@ -34,9 +47,8 @@ app = FastAPI()
 @app.post("/predict")
 def predict(
     image: UploadFile = File(...),
-    format: str = Query(
+    format: PredictionFormatEnum = Query(
         "json",
-        regex=r"^txt|json$",
         description="The format in which the output will be returned",
     )
 ):
@@ -53,9 +65,8 @@ def predict(
 @app.post("/report")
 def report(
     scan: UploadFile = File(...),
-    format: str = Query(
+    format: ReportFormatEnum = Query(
         "json",
-        regex=r"^html|txt|json$",
         description="The format in which the output will be returned",
     )
 ):
