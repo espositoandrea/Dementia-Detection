@@ -108,27 +108,4 @@ def report(
 
 @app.get("/")
 def root():
-    return HTMLResponse('''
-    <form action="/predict" method="post" enctype="multipart/form-data">
-        <input type="file" required name="image">
-        <input type="submit">
-    </form>
-    <div>
-    <h1>Full report</h1>
-    <h2>JSON</h2>
-    <form action="/report" method="post" enctype="multipart/form-data">
-        <input type="file" required name="scan">
-        <input type="submit">
-    </form>
-    <h2>TXT</h2>
-    <form action="/report?format=txt" method="post" enctype="multipart/form-data">
-        <input type="file" required name="scan">
-        <input type="submit">
-    </form>
-    <h2>HTML</h2>
-    <form action="/report?format=html" method="post" enctype="multipart/form-data">
-        <input type="file" required name="scan">
-        <input type="submit">
-    </form>
-    </div>
-    ''')
+    return {"status": "ok"}
