@@ -20,4 +20,5 @@ ENV PATH="/code/.venv/bin:$PATH"
 
 COPY ./src /code/app
 COPY ./data/model/memento.h5 /code/data/model/memento.h5
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+EXPOSE 8080
