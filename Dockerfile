@@ -9,12 +9,12 @@ ENV PYTHONFAULTHANDLER 1
 
 # Install pipenv and compilation dependencies
 RUN pip install pipenv
-RUN apt-get update && apt-get install -y gcc python3-opencv
+RUN apt-get update && apt-get install -y python3-opencv --no-install-recommends
 
 # Install python dependencies in /.venv
 COPY Pipfile .
-#COPY Pipfile.lock .
-RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --skip-lock
+COPY Pipfile.lock .
+RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy
 
 ENV PATH="/code/.venv/bin:$PATH"
 

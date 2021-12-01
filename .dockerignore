@@ -1,4 +1,6 @@
 /.dvc
+*.ipynb
+.venv
 /data/csv
 /data/csv.dvc
 /data/evaluation
