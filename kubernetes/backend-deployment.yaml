@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memento
+spec:
+  selector:
+    app: memento
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: memento
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: memento
+        tier: backend
+    spec:
+      containers:
+        - name: memento
+          image: "espositoandrea/memento-backend:0.0.1"
+          ports:
+            - name: http
+              containerPort: 8080
