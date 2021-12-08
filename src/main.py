@@ -81,7 +81,7 @@ def report(
         image = normalize(image)
         image = resize_to_input_shape(image, n_frames=20)
         res = {
-            "probabilities": classify(np.vstack(np.expand_dims(image[:, :, i], 0) for i in range(20))),
+            "probabilities": classify(np.vstack([np.expand_dims(image[:, :, i], 0) for i in range(20)])),
         }
         res["final_probability"] = np.mean(res["probabilities"])
 
