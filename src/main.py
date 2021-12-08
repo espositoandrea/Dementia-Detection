@@ -10,7 +10,10 @@ import shutil
 import tensorflow as tf
 import datetime
 import enum
-from .images2frames import resize_to_input_shape, normalize
+import sys
+from pathlib import Path
+sys.path.insert(1, str((Path(__file__).parent / '../src').resolve()))
+from images2frames import resize_to_input_shape, normalize
 
 model = tf.keras.models.load_model('data/model/memento.h5')
 
@@ -78,7 +81,7 @@ def report(
         image = normalize(image)
         image = resize_to_input_shape(image, n_frames=20)
         res = {
-            "probabilities": classify(np.vstack(np.expand_dims(image[:, :, i], 0) for i in range(20))),
+            "probabilities": classify(np.vstack([np.expand_dims(image[:, :, i], 0) for i in range(20)])),
         }
         res["final_probability"] = np.mean(res["probabilities"])
 
