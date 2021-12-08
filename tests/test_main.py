@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 sys.path.insert(1, str((Path(__file__).parent / '../src').resolve()))
 
-from main import app
+from main import app, classify
 from fastapi.testclient import TestClient
 import random
 
@@ -28,6 +28,13 @@ def test_predict():
         assert "probability" in json
         assert type(json["probability"]) == float
 
+    with open(random.choice(avail_frames), 'rb') as f:
+        response = client.post('/predict?format=txt', files={'image': f})
+        assert response.status_code == 200
+    with open(random.choice(avail_frames), 'rb') as f:
+        response = client.post('/predict?format=html', files={'image': f})
+        assert response.status_code == 422
+
 def test_report():
     response = client.get('/report')
     assert response.status_code == 405
@@ -41,3 +48,11 @@ def test_report():
         assert type(json['probabilities']) == list
         assert all(type(x) == float for x in json['probabilities'])
         assert type(json['final_probability']) == float
+
+    with open(random.choice(avail_scans), 'rb') as f:
+        response = client.post('/report?format=txt', files={'scan': f})
+        assert response.status_code == 200
+
+    with open(random.choice(avail_scans), 'rb') as f:
+        response = client.post('/report?format=html', files={'scan': f})
+        assert response.status_code == 200
