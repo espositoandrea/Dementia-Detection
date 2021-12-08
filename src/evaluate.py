@@ -90,14 +90,33 @@ history = model.fit(
 
 model.load_weights(filename)
 metrics = model.evaluate(val_ds)
+x_test = args.data
+y_test = params['validation_split']
+predictions = model.predict(x_test)
+matrix = tf.math.confusion_matrix(y_test, tf.round(predictions))
+t_n, f_p, f_n, t_p = matrix.numpy().ravel()
+precision = t_p / (t_p + f_p)
+recall = t_p / (t_p + f_n)
+f1 = 2*(precision*recall)/(precision+recall)
+
 with open(outdir / "scores.json", "w") as f:
-    json.dump(dict(zip(model.metrics_names, metrics)), f, indent=4)
+    metrics_dictionary = dict(zip(model.metrics_names, metrics))
+    metrics_dictionary['Precision'] = precision
+    metrics_dictionary['Recall'] = recall
+    metrics_dictionary['F1'] = f1
+    json.dump(metrics_dictionary, f, indent=4)
+
+# Check for overfit
+#assert metrics['accuracy'] == pytest.approx(metrics['val_accuracy'], abs=0.1)
+
+# Check precision, recall and f1
+#assert precision >= x
+#assert recall >= x
+#assert f1 >= x
+
 # mlflow.log_metric("val_loss", metrics[0])
 # mlflow.log_metric("val_accuracy", metrics[1])
 
-# predictions = model.predict(x_test)
-# matrix = tf.math.confusion_matrix(y_test, predictions)
-# t_n, f_p, f_n, t_p = matrix.numpy().ravel()
 # mlflow.log_metric("confusion.tn", t_n)
 # mlflow.log_metric("confusion.fp", f_p)
 # mlflow.log_metric("confusion.fn", f_n)

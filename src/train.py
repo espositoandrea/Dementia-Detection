@@ -56,4 +56,5 @@ history = model.fit(
 )
 
 # Save the model
+# assert
 model.save(outdir / 'memento.h5')
