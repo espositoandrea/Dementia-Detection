@@ -10,7 +10,10 @@ import shutil
 import tensorflow as tf
 import datetime
 import enum
-from .images2frames import resize_to_input_shape, normalize
+import sys
+from pathlib import Path
+sys.path.insert(1, str((Path(__file__).parent / '../src').resolve()))
+from images2frames import resize_to_input_shape, normalize
 
 model = tf.keras.models.load_model('data/model/memento.h5')
 
