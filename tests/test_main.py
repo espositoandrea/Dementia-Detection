@@ -3,14 +3,28 @@ from pathlib import Path
 sys.path.insert(1, str((Path(__file__).parent / '../src').resolve()))
 
 from main import app, classify
+import pytest
 from fastapi.testclient import TestClient
 import random
+import nibabel as nib
+from tempfile import NamedTemporaryFile
+import numpy as np
+from contextlib import contextmanager
 
 client = TestClient(app)
 frames = Path(__file__).parent / '../data/frames'
 scans = Path(__file__).parent / '../data/prepared/scans'
 avail_frames = list(frames.glob('*/*.png'))
 avail_scans = list(scans.glob('*.nii'))
+
+@pytest.fixture
+@contextmanager
+def random_scan():
+    with NamedTemporaryFile(delete=True, suffix='.nii') as tmp:
+        scan = nib.Nifti1Image(np.random.rand(128,128,20,30), affine=np.eye(4))
+        nib.save(scan, tmp.name)
+        tmp.seek(0)
+        yield tmp
 
 def test_root():
     response = client.get('/')
@@ -35,7 +49,7 @@ def test_predict():
         response = client.post('/predict?format=html', files={'image': f})
         assert response.status_code == 422
 
-def test_report():
+def test_report(random_scan):
     response = client.get('/report')
     assert response.status_code == 405
 
@@ -55,4 +69,8 @@ def test_report():
 
     with open(random.choice(avail_scans), 'rb') as f:
         response = client.post('/report?format=html', files={'scan': f})
+        assert response.status_code == 200
+
+    with random_scan as tmp:
+        response = client.post('/report?format=html', files={'scan': tmp})
         assert response.status_code == 200
