@@ -6,6 +6,7 @@ import shutil
 from pathlib import Path
 import yaml
 import json
+import numpy as np
 
 
 model = get_model()
@@ -90,14 +91,32 @@ history = model.fit(
 
 model.load_weights(filename)
 metrics = model.evaluate(val_ds)
+x_test = np.concatenate([x for x,y in val_ds], axis=0)
+y_test = np.concatenate([y for x,y in val_ds], axis=0)
+predictions = model.predict(x_test)
+matrix = tf.math.confusion_matrix(y_test.flatten(), tf.round(predictions.flatten()))
+t_n, f_p, f_n, t_p = matrix.numpy().ravel()
+precision = t_p / (t_p + f_p)
+recall = t_p / (t_p + f_n)
+f1 = 2*(precision*recall)/(precision+recall)
+
+metrics_dictionary = dict(zip(model.metrics_names, metrics))
+metrics_dictionary['precision'] = precision
+metrics_dictionary['recall'] = recall
+metrics_dictionary['f1'] = f1
 with open(outdir / "scores.json", "w") as f:
-    json.dump(dict(zip(model.metrics_names, metrics)), f, indent=4)
+    json.dump(metrics_dictionary, f, indent=4)
+    print(metrics_dictionary)
+
+# Assert metrics
+assert metrics_dictionary['accuracy'] >= 0.5
+assert metrics_dictionary['precision'] >= 0.45
+assert metrics_dictionary['recall'] >= 0.7
+assert metrics_dictionary['f1'] >= 0.5
+
 # mlflow.log_metric("val_loss", metrics[0])
 # mlflow.log_metric("val_accuracy", metrics[1])
 
-# predictions = model.predict(x_test)
-# matrix = tf.math.confusion_matrix(y_test, predictions)
-# t_n, f_p, f_n, t_p = matrix.numpy().ravel()
 # mlflow.log_metric("confusion.tn", t_n)
 # mlflow.log_metric("confusion.fp", f_p)
 # mlflow.log_metric("confusion.fn", f_n)
