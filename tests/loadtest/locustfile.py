@@ -8,8 +8,8 @@ from locust import HttpUser, task, between
 from pathlib import Path
 import random
 
-frames = Path(__file__).parent / '../data/frames'
-scans = Path(__file__).parent / '../data/prepared/scans'
+frames = Path(__file__).parent / '../../data/frames'
+scans = Path(__file__).parent / '../../data/prepared/scans'
 avail_frames = list(frames.glob('*/*.png'))
 avail_scans = list(scans.glob('*.nii'))
 
