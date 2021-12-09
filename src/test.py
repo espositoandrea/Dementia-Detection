@@ -5,7 +5,9 @@ import argparse
 import shutil
 from pathlib import Path
 import yaml
+import numpy as np
 import json
+import pytest
 
 
 model = get_model()
@@ -19,8 +21,8 @@ parser.add_argument("--params", "-p", default='params.yaml')
 args = parser.parse_args()
 
 outdir = Path(args.outdir)
-shutil.rmtree(outdir, ignore_errors=True)
-outdir.mkdir(parents=True, exist_ok=True)
+#shutil.rmtree(outdir, ignore_errors=True)
+#outdir.mkdir(parents=True, exist_ok=True)
 
 filename = outdir / "weights.h5"
 
@@ -69,25 +71,28 @@ early_stopping_cb = keras.callbacks.EarlyStopping(
 
 model.load_weights(filename)
 metrics = model.evaluate(val_ds)
-x_test = args.data
-y_test = params['validation_split']
+x_test = np.concatenate([x for x,y in val_ds], axis=0)
+y_test = np.concatenate([y for x,y in val_ds], axis=0)
 predictions = model.predict(x_test)
-matrix = tf.math.confusion_matrix(y_test, tf.round(predictions))
+matrix = tf.math.confusion_matrix(y_test.flatten(), tf.round(predictions.flatten()))
 t_n, f_p, f_n, t_p = matrix.numpy().ravel()
 precision = t_p / (t_p + f_p)
 recall = t_p / (t_p + f_n)
 f1 = 2*(precision*recall)/(precision+recall)
 
+metrics_dictionary = dict(zip(model.metrics_names, metrics))
+metrics_dictionary['precision'] = precision
+metrics_dictionary['recall'] = recall
+metrics_dictionary['f1'] = f1
 with open(outdir / "scores.json", "w") as f:
-    metrics_dictionary = dict(zip(model.metrics_names, metrics))
-    metrics_dictionary['Precision'] = precision
-    metrics_dictionary['Recall'] = recall
-    metrics_dictionary['F1'] = f1
     json.dump(metrics_dictionary, f, indent=4)
     print(metrics_dictionary)
 
-# Check for overfit
-#assert metrics['accuracy'] == pytest.approx(metrics[1], abs=0.1)
+# Assert metrics
+assert metrics_dictionary['accuracy'] >= 0.5
+assert metrics_dictionary['precision'] >= 0.45
+assert metrics_dictionary['recall'] >= 0.7
+assert metrics_dictionary['f1'] >= 0.5
 
 # Check precision, recall and f1
 #assert precision >= x
