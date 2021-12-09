@@ -4,6 +4,7 @@ import pandas as pd
 
 context = ge.data_context.DataContext()
 
+print("----CLINICAL-DATA---")
 #clinical-data
 name="clinical-data"
 context.create_expectation_suite(expectation_suite_name=name)
@@ -22,10 +23,10 @@ df.expect_column_values_to_not_be_null(column="dx1")
 
 expectationSuite = df.get_expectation_suite()
 #print(expectationSuite)
-#print(df.validate(expectation_suite=expectationSuite, only_return_failures=True))
+print(df.validate(expectation_suite=expectationSuite))
 context.save_expectation_suite(expectation_suite=expectationSuite, expectation_suite_name=name)
 
-
+print("----PUP---")
 #PUP
 name="pup"
 context.create_expectation_suite(expectation_suite_name=name)
@@ -38,10 +39,10 @@ df.expect_column_values_to_be_in_set(column="tracer",value_set=["AV45","PIB"])
 
 expectationSuite = df.get_expectation_suite()
 #print(expectationSuite)
-#print(df.validate(expectation_suite=expectationSuite, only_return_failures=True))
+print(df.validate(expectation_suite=expectationSuite))
 context.save_expectation_suite(expectation_suite=expectationSuite, expectation_suite_name=name)
 
-
+print("----LABELS---")
 #labels
 name="labels"
 context.create_expectation_suite(expectation_suite_name=name)
@@ -58,9 +59,10 @@ df.expect_column_values_to_be_in_type_list(column="Label", type_list=["BOOLEAN",
 
 expectationSuite = df.get_expectation_suite()
 #print(expectationSuite)
-#print(df.validate(expectation_suite=expectationSuite, only_return_failures=True))
+print(df.validate(expectation_suite=expectationSuite))
 context.save_expectation_suite(expectation_suite=expectationSuite, expectation_suite_name=name)
 
+print("----LABELLED-IMAGES---")
 #labelled_images
 name="labelled-images"
 context.create_expectation_suite(expectation_suite_name=name)
@@ -75,5 +77,5 @@ df.expect_column_values_to_be_in_type_list(column="label", type_list=["BOOLEAN",
 
 expectationSuite = df.get_expectation_suite()
 #print(expectationSuite)
-#print(df.validate(expectation_suite=expectationSuite, only_return_failures=True))
+print(df.validate(expectation_suite=expectationSuite))
 context.save_expectation_suite(expectation_suite=expectationSuite, expectation_suite_name=name)
