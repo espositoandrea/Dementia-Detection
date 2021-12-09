@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 import yaml
 import json
-import numpy
+import numpy as np
 
 
 model = get_model()
