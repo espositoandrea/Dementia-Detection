@@ -1,41 +1,40 @@
 stages:
   labelling:
-    cmd: python src/labelling.py data/csv/clinical-data.csv data/csv/pup.csv -o data/labels.csv
+    cmd: python src/experiment/labelling.py data/csv/clinical-data.csv data/csv/pup.csv -o data/labels.csv
     deps:
     - data/csv/clinical-data.csv
     - data/csv/pup.csv
-    - src/labelling.py
+    - src/experiment/labelling.py
     outs:
     - data/labels.csv
   prepare:
-    cmd: python src/prepare.py data/raw data/labels.csv data/prepared
+    cmd: python src/experiment/prepare.py data/raw data/labels.csv data/prepared
     deps:
     - data/labels.csv
     - data/raw
-    - src/prepare.py
+    - src/experiment/prepare.py
     params:
     - prepare.seed
     - prepare.num_samples
     outs:
     - data/prepared
   extractframes:
-    cmd: python src/images2frames.py data/prepared/labelled-images.csv data/prepared/scans data/frames
+    cmd: python src/experiment/images2frames.py data/prepared/labelled-images.csv data/prepared/scans data/frames
     deps:
     - data/prepared/labelled-images.csv
     - data/prepared/scans
-    - src/images2frames.py
+    - src/experiment/images2frames.py
     params:
     - extractframes.n_frames
     outs:
     - data/frames
   evaluate:
-    cmd: python src/evaluate.py data/frames data/evaluation
+    cmd: python src/experiment/evaluate.py data/frames data/evaluation
     deps:
     - data/frames
-    - src/evaluate.py
+    - src/experiment/evaluate.py
     metrics:
-    - data/evaluation/scores.json:
-        cache: false
+    - data/evaluation/scores.json
     params:
     - evaluate.seed
     - evaluate.batch_size
@@ -47,10 +46,10 @@ stages:
     outs:
     - data/evaluation/weights.h5
   train:
-    cmd: python src/train.py data/frames data/model
+    cmd: python src/experiment/train.py data/frames data/model
     deps:
     - data/frames
-    - src/train.py
+    - src/experiment/train.py
     params:
     - train.seed
     - train.batch_size

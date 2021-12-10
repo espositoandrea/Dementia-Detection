@@ -1,15 +1,14 @@
+import sys
+from pathlib import Path
+sys.path.insert(1, str((Path(__file__).parent / '../..').resolve()))
 import cv2
 from contextlib import contextmanager
 import numpy as np
 from tempfile import NamedTemporaryFile
 import nibabel as nib
-import random
 from fastapi.testclient import TestClient
 import pytest
-import sys
-from pathlib import Path
-sys.path.insert(1, str((Path(__file__).parent / '../src').resolve()))
-from main import app, classify
+from src.app.main import app
 
 
 client = TestClient(app)

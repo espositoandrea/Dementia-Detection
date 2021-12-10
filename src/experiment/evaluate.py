@@ -111,8 +111,8 @@ with open(outdir / "scores.json", "w") as f:
 # Assert metrics
 assert metrics_dictionary['accuracy'] >= 0.5
 assert metrics_dictionary['precision'] >= 0.45
-assert metrics_dictionary['recall'] >= 0.7
-assert metrics_dictionary['f1'] >= 0.5
+assert metrics_dictionary['recall'] >= 0.45
+assert metrics_dictionary['f1'] >= 0.45
 
 # mlflow.log_metric("val_loss", metrics[0])
 # mlflow.log_metric("val_accuracy", metrics[1])

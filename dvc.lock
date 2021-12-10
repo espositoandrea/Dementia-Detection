@@ -1,7 +1,8 @@
 schema: '2.0'
 stages:
   labelling:
-    cmd: python src/labelling.py data/csv/clinical-data.csv data/csv/pup.csv -o data/labels.csv
+    cmd: python src/experiment/labelling.py data/csv/clinical-data.csv data/csv/pup.csv
+      -o data/labels.csv
     deps:
     - path: data/csv/clinical-data.csv
       md5: 8fa7576fc3a3814f333348ba7998f0e1
@@ -9,7 +10,7 @@ stages:
     - path: data/csv/pup.csv
       md5: 1a723b47b127c02cd9e77f5fabde35cf
       size: 203576
-    - path: src/labelling.py
+    - path: src/experiment/labelling.py
       md5: b0db448cb8d91503c5d71fbecabec53d
       size: 3604
     outs:
@@ -17,7 +18,7 @@ stages:
       md5: fb5f091f2626760ca2f20ac475ec9ad3
       size: 82527
   prepare:
-    cmd: python src/prepare.py data/raw data/labels.csv data/prepared
+    cmd: python src/experiment/prepare.py data/raw data/labels.csv data/prepared
     deps:
     - path: data/labels.csv
       md5: fb5f091f2626760ca2f20ac475ec9ad3
@@ -26,7 +27,7 @@ stages:
       md5: 5e6b4d71e0e68fe8f98c0af0e8fb6bdb.dir
       size: 17375510643
       nfiles: 103
-    - path: src/prepare.py
+    - path: src/experiment/prepare.py
       md5: 3bdaf1348bac65048fb3f49bf49892c5
       size: 4672
     params:
@@ -39,8 +40,8 @@ stages:
       size: 441652301
       nfiles: 42
   extractframes:
-    cmd: python src/images2frames.py data/prepared/labelled-images.csv data/prepared/scans
-      data/frames
+    cmd: python src/experiment/images2frames.py data/prepared/labelled-images.csv
+      data/prepared/scans data/frames
     deps:
     - path: data/prepared/labelled-images.csv
       md5: e5096ddb47ed9a3df1e82cbb39f855fa
@@ -49,7 +50,7 @@ stages:
       md5: 8e853f4d0b92c566717ef9763ce0aabc.dir
       size: 441650176
       nfiles: 40
-    - path: src/images2frames.py
+    - path: src/experiment/images2frames.py
       md5: 6391cebc56a997cead8fcb2842b760cc
       size: 3825
     params:
@@ -61,15 +62,15 @@ stages:
       size: 6751838
       nfiles: 800
   evaluate:
-    cmd: python src/evaluate.py data/frames data/evaluation
+    cmd: python src/experiment/evaluate.py data/frames data/evaluation
     deps:
     - path: data/frames
       md5: 590eb50dfbe1d40ad09184d1cd5aa90b.dir
       size: 6751838
       nfiles: 800
-    - path: src/evaluate.py
-      md5: 553ab8097e9226d034184152f0594ecb
-      size: 2880
+    - path: src/experiment/evaluate.py
+      md5: fd74bcef47d6df7080598b82d638bef7
+      size: 3513
     params:
       params.yaml:
         evaluate.batch_size: 128
@@ -81,21 +82,21 @@ stages:
         evaluate.validation_split: 0.2
     outs:
     - path: data/evaluation/scores.json
-      md5: 0076fc1c18525ed4aaaff616556a8dab
-      size: 58
+      md5: be2ef71420f2813d4a72636eb2b991ac
+      size: 170
     - path: data/evaluation/weights.h5
-      md5: 805a5a62ec12134e9f8af99a1d6b406e
+      md5: 351efb5b712f1e92d3c955a0ea867405
       size: 6585792
   train:
-    cmd: python src/train.py data/frames data/model
+    cmd: python src/experiment/train.py data/frames data/model
     deps:
     - path: data/frames
       md5: 590eb50dfbe1d40ad09184d1cd5aa90b.dir
       size: 6751838
       nfiles: 800
-    - path: src/train.py
-      md5: 543d36e52959454d4cb8c0a4263240d7
-      size: 1469
+    - path: src/experiment/train.py
+      md5: f0a7563fac36f8c18dbeecf70984ffd3
+      size: 1478
     params:
       params.yaml:
         train.batch_size: 128
@@ -105,5 +106,5 @@ stages:
         train.seed: 1234
     outs:
     - path: data/model/memento.h5
-      md5: ad0a6c173836d8236798b2215e1956d7
+      md5: 0ea91ac11468f1f7b7f0dda3a1929970
       size: 6585792
