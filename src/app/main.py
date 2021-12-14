@@ -13,6 +13,7 @@ import enum
 import sys
 from pathlib import Path
 from ..experiment.images2frames import resize_to_input_shape, normalize
+from .monitoring import instrumentator
 
 model = tf.keras.models.load_model('data/model/memento.h5')
 
@@ -44,6 +45,7 @@ def save_upload_file_tmp(upload_file: UploadFile) -> Path:
 
 
 app = FastAPI()
+instrumentator.instrument(app).expose(app, include_in_schema=False, should_gzip=True)
 
 
 @app.post("/predict")
