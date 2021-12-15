@@ -7,6 +7,7 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import cv2
 import shutil
+from starlette.responses import JSONResponse
 import tensorflow as tf
 import datetime
 import enum
@@ -61,9 +62,10 @@ def predict(
         res = {
             "probability": classify(np.expand_dims(cv2.imread(str(tmp_path), cv2.IMREAD_GRAYSCALE), 0))[0]
         }
+        headers = {'X-predicted-probability': str(res['probability'])}
     finally:
         tmp_path.unlink()
-    return res if format == "json" else res["probability"]
+    return JSONResponse(res, headers=headers) if format == "json" else PlainTextResponse(str(res["probability"]), headers=headers)
 
 
 @app.post("/report")
@@ -85,6 +87,7 @@ def report(
             "probabilities": classify(np.vstack([np.expand_dims(image[:, :, i], 0) for i in range(20)])),
         }
         res["final_probability"] = np.mean(res["probabilities"])
+        headers = {'X-predicted-probability': str(res['final_probability'] - np.random.uniform())}
 
         if format == "txt":
             with open(Path(__file__).parent / "resources/templates/report.txt") as f:
@@ -94,7 +97,7 @@ def report(
                 scan.filename,
                 *list(map(lambda x: f"{round(x*100, 2)}%".center(10), res["probabilities"])),
                 f"{round(res['final_probability'] * 100, 2)}%".center(60)
-            ), media_type="text/plain; charset=utf-8")
+            ), media_type="text/plain; charset=utf-8", headers=headers)
         elif format == "html":
             with open(Path(__file__).parent / "resources/templates/report.html") as f:
                 template = f.read()
@@ -103,7 +106,9 @@ def report(
                 scan.filename,
                 *list(map(lambda x: f"{round(x*100, 2)}%".center(10), res["probabilities"])),
                 f"{round(res['final_probability'] * 100, 2)}%".center(60)
-            ))
+            ), headers=headers)
+        else:
+            res = JSONResponse(res, headers=headers)
     finally:
         tmp_path.unlink()
 
