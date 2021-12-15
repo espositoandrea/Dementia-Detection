@@ -7,7 +7,7 @@ context = ge.data_context.DataContext()
 print("----CLINICAL-DATA---")
 #clinical-data
 name="clinical-data"
-context.create_expectation_suite(expectation_suite_name=name)
+context.create_expectation_suite(expectation_suite_name=name,overwrite_existing=True)
 dataframe = pd.read_csv("../../../data/"+"csv/"+name+".csv")
 df = ge.dataset.PandasDataset(dataframe)
 
@@ -29,7 +29,7 @@ context.save_expectation_suite(expectation_suite=expectationSuite, expectation_s
 print("----PUP---")
 #PUP
 name="pup"
-context.create_expectation_suite(expectation_suite_name=name)
+context.create_expectation_suite(expectation_suite_name=name,overwrite_existing=True)
 dataframe = pd.read_csv("../../../data/"+"csv/"+name+".csv")
 df = ge.dataset.PandasDataset(dataframe)
 df.expect_column_values_to_not_be_null(column="PUP_PUPTIMECOURSEDATA ID")
@@ -45,7 +45,7 @@ context.save_expectation_suite(expectation_suite=expectationSuite, expectation_s
 print("----LABELS---")
 #labels
 name="labels"
-context.create_expectation_suite(expectation_suite_name=name)
+context.create_expectation_suite(expectation_suite_name=name,overwrite_existing=True)
 dataframe = pd.read_csv("../../../data/"+name+".csv")
 df = ge.dataset.PandasDataset(dataframe)
 df.expect_column_values_to_not_be_null(column="PUP_PUPTIMECOURSEDATA ID")
@@ -65,7 +65,7 @@ context.save_expectation_suite(expectation_suite=expectationSuite, expectation_s
 print("----LABELLED-IMAGES---")
 #labelled_images
 name="labelled-images"
-context.create_expectation_suite(expectation_suite_name=name)
+context.create_expectation_suite(expectation_suite_name=name,overwrite_existing=True)
 dataframe = pd.read_csv("../../../data/"+"prepared/"+name+".csv")
 df = ge.dataset.PandasDataset(dataframe)
 
