@@ -13,6 +13,7 @@ fastapi = {extras = ["all"], version = "*"}
 python-multipart = "*"
 opencv-python = "*"
 tensorflow = "*"
+prometheus-fastapi-instrumentator = "*"
 
 [dev-packages]
 autopep8 = "*"
