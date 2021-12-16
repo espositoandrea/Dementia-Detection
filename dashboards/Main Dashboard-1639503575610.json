@@ -41,6 +41,69 @@
       "type": "text"
     },
     {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 16,
+      "options": {
+        "colWidth": 0.9,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "I3eHP62nz"
+          },
+          "exemplar": true,
+          "expr": "up{job=\"dementiadetection\"}",
+          "interval": "",
+          "legendFormat": "{{job}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Status",
+      "type": "status-history"
+    },
+    {
       "description": "Model output distribution for endpoint /report",
       "fieldConfig": {
         "defaults": {
@@ -48,6 +111,7 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -68,7 +132,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 3
+        "y": 8
       },
       "id": 6,
       "options": {
@@ -126,7 +190,7 @@
         "h": 8,
         "w": 7,
         "x": 12,
-        "y": 3
+        "y": 8
       },
       "id": 10,
       "options": {
@@ -182,7 +246,7 @@
         "h": 8,
         "w": 5,
         "x": 19,
-        "y": 3
+        "y": 8
       },
       "id": 8,
       "options": {
@@ -239,7 +303,7 @@
         "h": 7,
         "w": 5,
         "x": 0,
-        "y": 11
+        "y": 16
       },
       "id": 2,
       "options": {
@@ -267,7 +331,7 @@
             "uid": "I3eHP62nz"
           },
           "exemplar": true,
-          "expr": "fastapi_model_http_request_size_bytes_created",
+          "expr": "fastapi_model_http_request_size_bytes_count",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -309,7 +373,7 @@
         "h": 7,
         "w": 7,
         "x": 5,
-        "y": 11
+        "y": 16
       },
       "id": 4,
       "options": {
@@ -398,7 +462,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 16
       },
       "id": 12,
       "options": {
@@ -429,7 +493,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 34,
   "style": "dark",
   "tags": [],
@@ -444,6 +508,6 @@
   "timezone": "",
   "title": "Main Dashboard",
   "uid": "25hsEehnz",
-  "version": 24,
+  "version": 34,
   "weekStart": ""
 }

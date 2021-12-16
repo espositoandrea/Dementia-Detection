@@ -87,7 +87,7 @@ def report(
             "probabilities": classify(np.vstack([np.expand_dims(image[:, :, i], 0) for i in range(20)])),
         }
         res["final_probability"] = np.mean(res["probabilities"])
-        headers = {'X-predicted-probability': str(res['final_probability'] - np.random.uniform())}
+        headers = {'X-predicted-probability': str(res["final_probability"])}
 
         if format == "txt":
             with open(Path(__file__).parent / "resources/templates/report.txt") as f:
