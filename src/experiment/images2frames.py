@@ -1,17 +1,13 @@
-from numpy.core.numeric import outer
-import yaml
-import pandas as pd
 import argparse
-from pathlib import Path
-import random
-from scipy.ndimage.interpolation import rotate
-import numpy as np
-import nibabel as nib
-import re
-import sys
-import cv2
 import shutil
+import sys
+from pathlib import Path
 
+import cv2
+import nibabel as nib
+import numpy as np
+import pandas as pd
+import yaml
 
 POSITIVE_CLS = 'positive'
 NEGATIVE_CLS = 'negative'
@@ -24,9 +20,9 @@ def find_brain_bounding_box(image):
         blurred *= 255.0 / blurred.max()
         blurred[np.where(blurred < 0)] = 0
         blurred = blurred.astype(np.uint8)
-        ret, thres = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        _, thres = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         blurred_thres = cv2.medianBlur(thres, 5)
-        contours, hierarchy = cv2.findContours(blurred_thres, 1, 2)
+        contours, _ = cv2.findContours(blurred_thres, 1, 2)
         curr_x, curr_y, curr_w, curr_h = cv2.boundingRect(contours[0])
         w = max(w, curr_x + curr_w)
         h = max(h, curr_y + curr_h)
@@ -43,9 +39,9 @@ def find_brain_bounding_box(image):
 def normalize(volume):
     """Normalize the volume"""
     volume = np.array(volume)
-    min = volume.min()
-    max = volume.max()
-    volume = (volume - min) / (max - min)
+    minimum = volume.min()
+    maximum = volume.max()
+    volume = (volume - minimum) / (maximum - minimum)
     volume = volume.astype("float32")
     return volume
 

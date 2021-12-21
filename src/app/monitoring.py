@@ -1,6 +1,7 @@
 import os
 from typing import Callable, Tuple
-from prometheus_client import Histogram, Counter
+
+from prometheus_client import Counter, Histogram
 from prometheus_fastapi_instrumentator import Instrumentator, metrics
 from prometheus_fastapi_instrumentator.metrics import Info
 
@@ -66,7 +67,7 @@ def model_output(
     metric_subsystem: str = "",
     buckets: Tuple[int] = (0, .25, .50, .75, 1),
 ) -> Callable[[Info], None]:
-    METRIC = Histogram(
+    metric = Histogram(
         metric_name,
         metric_doc,
         labelnames=["endpoint"],
@@ -77,11 +78,13 @@ def model_output(
 
     def instrumentation(info: Info) -> None:
         if info.modified_handler in ["/report", "/predict"]:
-            predicted_probability = float(info.response.headers['X-predicted-probability'])
+            predicted_probability = float(
+                info.response.headers['X-predicted-probability'])
             if predicted_probability:
-                METRIC.labels(info.modified_handler[1:]).observe(
+                metric.labels(info.modified_handler[1:]).observe(
                     predicted_probability)
     return instrumentation
+
 
 def output_format(
     metric_name: str = "output_format",
@@ -89,7 +92,7 @@ def output_format(
     metric_namespace: str = "",
     metric_subsystem: str = "",
 ) -> Callable[[Info], None]:
-    METRIC = Counter(
+    metric = Counter(
         metric_name,
         metric_doc,
         labelnames=["format", "endpoint"],
@@ -100,8 +103,9 @@ def output_format(
     def instrumentation(info: Info) -> None:
         if info.modified_handler in ["/report", "/predict"]:
             format = info.request.query_params.get("format", "json")
-            METRIC.labels(format, info.modified_handler).inc()
+            metric.labels(format, info.modified_handler).inc()
     return instrumentation
+
 
 instrumentator.add(
     model_output(
