@@ -1,13 +1,14 @@
-from model import get_model
-import tensorflow as tf
-from tensorflow import keras
 import argparse
+import json
 import shutil
 from pathlib import Path
-import yaml
-import json
-import numpy as np
 
+import numpy as np
+import tensorflow as tf
+import yaml
+from tensorflow import keras
+
+from model import get_model
 
 model = get_model()
 
