@@ -8,8 +8,8 @@ from locust import HttpUser, task, between
 from pathlib import Path
 import random
 
-frames = Path(__file__).parent / '../data/frames'
-scans = Path(__file__).parent / '../data/prepared/scans'
+frames = Path(__file__).parent / '../../data/frames'
+scans = Path(__file__).parent / '../../data/prepared/scans'
 avail_frames = list(frames.glob('*/*.png'))
 avail_scans = list(scans.glob('*.nii'))
 
@@ -23,13 +23,13 @@ class DementiaPredictionUser(HttpUser):
     @task(3)
     def predict(self):
         with open(random.choice(avail_frames), 'rb') as f:
-            self.client.post('/predict', files={
+            self.client.post(f'/predict?format={random.choice(["json", "txt"])}', files={
                 'image': f
             })
 
     @task(9)
     def report(self):
         with open(random.choice(avail_scans), 'rb') as f:
-            self.client.post('/report', files={
+            self.client.post(f'/report?format={random.choice(["json", "txt", "html"])}', files={
                 'scan': f
             })

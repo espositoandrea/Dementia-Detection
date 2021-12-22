@@ -1,11 +1,11 @@
-from model import get_model
-import tensorflow as tf
-from tensorflow import keras
 import argparse
 import shutil
 from pathlib import Path
+
+import tensorflow as tf
 import yaml
 
+from model import get_model
 
 model = get_model()
 
@@ -56,4 +56,5 @@ history = model.fit(
 )
 
 # Save the model
+# assert
 model.save(outdir / 'memento.h5')

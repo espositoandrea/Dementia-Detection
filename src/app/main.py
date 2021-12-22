@@ -1,19 +1,18 @@
-from fastapi import FastAPI, Query, UploadFile, File
-from fastapi.responses import HTMLResponse, PlainTextResponse
-from fastapi.params import Query
-import numpy as np
-import nibabel as nib
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-import cv2
-import shutil
-import tensorflow as tf
 import datetime
 import enum
-import sys
+import shutil
 from pathlib import Path
-sys.path.insert(1, str((Path(__file__).parent / '../src').resolve()))
-from images2frames import resize_to_input_shape, normalize
+from tempfile import NamedTemporaryFile
+
+import cv2
+import nibabel as nib
+import numpy as np
+import tensorflow as tf
+from fastapi import FastAPI, File, Query, UploadFile
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
+
+from ..experiment.images2frames import normalize, resize_to_input_shape
+from .monitoring import instrumentator
 
 model = tf.keras.models.load_model('data/model/memento.h5')
 
@@ -45,6 +44,8 @@ def save_upload_file_tmp(upload_file: UploadFile) -> Path:
 
 
 app = FastAPI()
+instrumentator.instrument(app).expose(
+    app, include_in_schema=False, should_gzip=True)
 
 
 @app.post("/predict")
@@ -60,9 +61,10 @@ def predict(
         res = {
             "probability": classify(np.expand_dims(cv2.imread(str(tmp_path), cv2.IMREAD_GRAYSCALE), 0))[0]
         }
+        headers = {'X-predicted-probability': str(res['probability'])}
     finally:
         tmp_path.unlink()
-    return res if format == "json" else res["probability"]
+    return JSONResponse(res, headers=headers) if format == "json" else PlainTextResponse(str(res["probability"]), headers=headers)
 
 
 @app.post("/report")
@@ -84,25 +86,28 @@ def report(
             "probabilities": classify(np.vstack([np.expand_dims(image[:, :, i], 0) for i in range(20)])),
         }
         res["final_probability"] = np.mean(res["probabilities"])
+        headers = {'X-predicted-probability': str(res["final_probability"])}
 
         if format == "txt":
-            with open(Path(__file__).parent / "resources/templates/report.txt") as f:
-                template = f.read()
+            with open(Path(__file__).parent / "resources/templates/report.txt") as fin:
+                template = fin.read()
             res = PlainTextResponse(template.format(
                 str(datetime.datetime.now(datetime.timezone.utc)).center(60),
                 scan.filename,
                 *list(map(lambda x: f"{round(x*100, 2)}%".center(10), res["probabilities"])),
                 f"{round(res['final_probability'] * 100, 2)}%".center(60)
-            ), media_type="text/plain; charset=utf-8")
+            ), media_type="text/plain; charset=utf-8", headers=headers)
         elif format == "html":
-            with open(Path(__file__).parent / "resources/templates/report.html") as f:
-                template = f.read()
+            with open(Path(__file__).parent / "resources/templates/report.html") as fin:
+                template = fin.read()
             res = HTMLResponse(template.format(
                 str(datetime.datetime.now(datetime.timezone.utc)).center(60),
                 scan.filename,
                 *list(map(lambda x: f"{round(x*100, 2)}%".center(10), res["probabilities"])),
                 f"{round(res['final_probability'] * 100, 2)}%".center(60)
-            ))
+            ), headers=headers)
+        else:
+            res = JSONResponse(res, headers=headers)
     finally:
         tmp_path.unlink()
 
