@@ -80,7 +80,7 @@ jobs:
         uses: coroo/pytest-coverage-commentator@v1.0.2
         if: github.event_name == 'pull_request'
 
-  build:
+  build-backend:
     needs:
       - lint
       - test
@@ -101,13 +101,47 @@ jobs:
           export GDRIVE_CREDENTIALS_DATA='${{ secrets.GDRIVE_CREDENTIALS_DATA }}'
           dvc pull train
 
-      - name: Build image and push to registry
+      - name: Build backend image and push to registry
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: espositoandrea/memento-backend
           directory: ./
           registry: docker.io
           dockerfile: Dockerfile
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
+  build-frontend:
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Set up DVC
+        uses: iterative/setup-dvc@v1
+
+      - name: Pull trained model
+        run: |
+          export GDRIVE_CREDENTIALS_DATA='${{ secrets.GDRIVE_CREDENTIALS_DATA }}'
+          dvc pull train
+
+      - name: Build frontend image and push to registry
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: espositoandrea/memento-frontend
+          directory: ./frontend
+          registry: docker.io
+          dockerfile: ./frontend/Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
