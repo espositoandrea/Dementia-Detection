@@ -68,6 +68,7 @@
   }
   .try-me .form-inline .form-group .form-control {
     width: 100%;
+    height: 54px;
   }
 
   .form-option {
@@ -75,13 +76,15 @@
     color: #fff;
     font-size: 16px !important;
     width: 100%;
+    height: 54px;
     border: 2px solid transparent !important;
   }
-  
-  .try-me .gtco-heading {
-    margin-bottom: 30px;
+
+  .form-select {
+    height: 54px;
   }
-  .try-me .gtco-heading h2 {
-    margin-bottom: 0;
+
+  .fa-github {
+    font-size: 24px;
+    color: white;
   }
-  

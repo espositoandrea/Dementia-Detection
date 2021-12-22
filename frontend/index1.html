@@ -6,11 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="./css/main.css" rel="stylesheet">
+
 
   <title>MEMENTO</title>
 
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     .splash {
       background-image: url('images/logo2.jpg');
       background-size: cover;
@@ -38,9 +43,32 @@
     .heading {
       margin-top: 10%;
     }
+    .btn-primary {
+      background-color: #F85A16;
+      border: 2px solid #F85A16 !important;
+    }
+    .btn-primary:hover {
+      color: #f85A16;
+      background-color: transparent;
+      border: 2px solid #F85A16 !important;
+    }
+
+    .btn-white.btn-outline {
+      color: #fff;
+      border: 2px solid #fff !important;
+    }
+    .btn-white.btn-outline:hover {
+      background: #fff;
+      color: #000;
+      border: 2px solid #fff;
+    }
 
     .bg-secondary {
       background-color: #333333 !important;
+    }
+    footer {
+      background-color: #000;
+      height: 50px;
     }
   </style>
 </head>
@@ -49,7 +77,7 @@
   <main>
     <header id="landing" class="text-white splash">
       <nav class="navbar navbar-expand-lg navbar-dark bg-transparent sticky-top" id="main-navbar">
-        <div class="container">
+        <div class="container" id="top-page">
           <a class="navbar-brand" href="#">MEMENTO</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -59,26 +87,29 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link" aria-current="page" href="#top-page">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#try-me">Try me</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled">Services</a>
+                <a class="nav-link" href="#report">Analyze</a>
           </div>
         </div>
       </nav>
       <div class="heading px-5">
         <h1 class="pt-5">MEMENTO</h1>
         <p class="lead pb-5">A<u>m</u>yloid P<u>E</u>T for De<u>ment</u>ia Detecti<u>o</u>n</p>
+        <a href="#try-me" class="btn btn-primary btn-lg">Try me</a>
+        <a href="#report" class="btn btn-white btn-outline btn-lg">See more</a>
+
       </div>
     </header>
 
 
     <section id="try-me" class="text-center py-5 bg-secondary">
       <div class="container try-me py-5" id="predict">
-        <div>
+        <div class="col-lg-12 text-center">
           <h2>Try it out!</h2>
           <p>Load a frame of a PET scans and let the system check it.</p>
         </div>
@@ -87,14 +118,14 @@
             enctype="multipart/form-data">
             <div class="col-md-4 col-sm-4">
               <div class="form-group">
-                <label for="frame" class="form-control visually-hidden text-center">Select your image</label>
-                <input type="file" accept="image/png" class="form-control" id="frame" name="image">
+                <label for="frame" class="form-label visually-hidden text-center">Select your image</label>
+                <input type="file" accept="image/png" class="form-control form-control-lg" id="frame" name="image">
               </div>
             </div>
 
             <div class="col-md-4 col-sm-4">
               <div class="form-group">
-                <label for="report-type" class="visually-hidden">Report type</label>
+                <label for="predict-format" class="visually-hidden">Report type</label>
                 <select name="format" class="form-select" id="predict-format">
                   <option class="form-option" value="html">HTML</option>
                   <option class="form-option" value="json">JSON</option>
@@ -117,12 +148,23 @@
           <p>Load a PET scan and let the system check it.</p>
         </div>
         <div class="row">
-          <form class="form-inline row" method="post" action="http://localhost:8080/report" id="report-form">
+          <form class="form-inline row" method="post" action="http://localhost:8080/report" id="report-form"
+            enctype="multipart/form-data">
             <div class="col-md-4 col-sm-4">
               <div class="form-group">
                 <label for="scan" class="form-control visually-hidden text-center">Select your scan</label>
                 <input type="file" accept="image/nii" class="form-control" id="scan" name="scan"
                   placeholder="Your scan">
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <div class="form-group">
+                <label for="report-format" class="visually-hidden">Report type</label>
+                <select name="format" class="form-select" id="report-format">
+                  <option class="form-option" value="html">HTML</option>
+                  <option class="form-option" value="json">JSON</option>
+                  <option class="form-option" value="txt">TXT</option>
+                </select>
               </div>
             </div>
             <div class="col-md-4 col-sm-4">
@@ -137,12 +179,19 @@
     </div>
 
   </main>
+  <footer class="" role="contentinfo">
+    <div class="col-md-12">
+      <div class="pull-left">
+        <a href="https://github.com/se4ai2122-cs-uniba/Dementia-Detection" target="_blank"><i class="fa fa-github mt-2 px-5"></i></a>
+      </div>
+    </div>
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
-  <script src="js/main1.js"></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
