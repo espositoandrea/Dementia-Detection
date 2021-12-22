@@ -6,6 +6,21 @@
       "expectation_context": {
         "description": null
       },
+      "expectation_type": "expect_table_columns_to_match_ordered_list",
+      "ge_cloud_id": null,
+      "kwargs": {
+        "column_list": [
+          "Unnamed: 0",
+          "filename",
+          "label"
+        ]
+      },
+      "meta": {}
+    },
+    {
+      "expectation_context": {
+        "description": null
+      },
       "expectation_type": "expect_column_values_to_not_be_null",
       "ge_cloud_id": null,
       "kwargs": {
@@ -21,6 +36,29 @@
       "ge_cloud_id": null,
       "kwargs": {
         "column": "filename"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_context": {
+        "description": null
+      },
+      "expectation_type": "expect_column_values_to_be_in_type_list",
+      "ge_cloud_id": null,
+      "kwargs": {
+        "column": "filename",
+        "type_list": [
+          "CHAR",
+          "NCHAR",
+          "VARCHAR",
+          "NVARCHAR",
+          "TEXT",
+          "NTEXT",
+          "STRING",
+          "StringType",
+          "string",
+          "str"
+        ]
       },
       "meta": {}
     },

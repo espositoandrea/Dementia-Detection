@@ -6,6 +6,29 @@
       "expectation_context": {
         "description": null
       },
+      "expectation_type": "expect_column_values_to_be_in_type_list",
+      "ge_cloud_id": null,
+      "kwargs": {
+        "column": "PUP_PUPTIMECOURSEDATA ID",
+        "type_list": [
+          "CHAR",
+          "NCHAR",
+          "VARCHAR",
+          "NVARCHAR",
+          "TEXT",
+          "NTEXT",
+          "STRING",
+          "StringType",
+          "string",
+          "str"
+        ]
+      },
+      "meta": {}
+    },
+    {
+      "expectation_context": {
+        "description": null
+      },
       "expectation_type": "expect_column_values_to_not_be_null",
       "ge_cloud_id": null,
       "kwargs": {
@@ -21,6 +44,29 @@
       "ge_cloud_id": null,
       "kwargs": {
         "column": "PUP_PUPTIMECOURSEDATA ID"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_context": {
+        "description": null
+      },
+      "expectation_type": "expect_column_values_to_be_in_type_list",
+      "ge_cloud_id": null,
+      "kwargs": {
+        "column": "tracer",
+        "type_list": [
+          "CHAR",
+          "NCHAR",
+          "VARCHAR",
+          "NVARCHAR",
+          "TEXT",
+          "NTEXT",
+          "STRING",
+          "StringType",
+          "string",
+          "str"
+        ]
       },
       "meta": {}
     },
