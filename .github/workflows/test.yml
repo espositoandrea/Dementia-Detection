@@ -6,8 +6,7 @@ on:
     branches-ignore:
       - main
   pull_request:
-    branches-ignore:
-      - main
+    branches: ['*']
 
 jobs:
   lint:
