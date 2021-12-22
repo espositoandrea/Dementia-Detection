@@ -579,7 +579,7 @@ form label {
 #gtco-features-2,
 #gtco-testimonial,
 #gtco-services,
-#gtco-subscribe,
+#try-me,
 #gtco-footer,
 .gtco-section {
   padding: 7em 0;
@@ -590,7 +590,7 @@ form label {
   #gtco-features-2,
   #gtco-testimonial,
   #gtco-services,
-  #gtco-subscribe,
+  #try-me,
   #gtco-footer,
   .gtco-section {
     padding: 3em 0;
@@ -841,13 +841,14 @@ form label {
   color: #F85A16;
 }
 
-#gtco-subscribe {
+#try-me {
   background: #333333;
+  width: 100%;
 }
-#gtco-subscribe .gtco-heading h2 {
+#try-me .gtco-heading h2 {
   color: #fff;
 }
-#gtco-subscribe .form-control {
+#try-me .form-control {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   font-size: 16px !important;
@@ -858,7 +859,7 @@ form label {
   transition: 0.5s;
 }
 
-#gtco-subscribe .form-select {
+#try-me .form-select {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   font-size: 16px !important;
@@ -869,25 +870,25 @@ form label {
   transition: 0.5s;
 }
 
-#gtco-subscribe .form-control:focus {
+#try-me .form-control:focus {
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.8) !important;
 }
-#gtco-subscribe .form-control::-webkit-input-placeholder {
+#try-me .form-control::-webkit-input-placeholder {
   color: #fff;
 }
-#gtco-subscribe .form-control:-moz-placeholder {
+#try-me .form-control:-moz-placeholder {
   /* Firefox 18- */
   color: #fff;
 }
-#gtco-subscribe .form-control::-moz-placeholder {
+#try-me .form-control::-moz-placeholder {
   /* Firefox 19+ */
   color: #fff;
 }
-#gtco-subscribe .form-control:-ms-input-placeholder {
+#try-me .form-control:-ms-input-placeholder {
   color: #fff;
 }
-#gtco-subscribe .btn {
+#try-me .btn {
   height: 54px;
   border: none !important;
   background: #F85A16;
@@ -898,11 +899,11 @@ form label {
   padding-left: 50px;
   padding-right: 50px;
 }
-#gtco-subscribe .form-inline .form-group {
+#try-me .form-inline .form-group {
   width: 100% !important;
   margin-bottom: 10px;
 }
-#gtco-subscribe .form-inline .form-group .form-control {
+#try-me .form-inline .form-group .form-control {
   width: 100%;
 }
 
@@ -914,10 +915,10 @@ form label {
   border: 2px solid transparent !important;
 }
 
-#gtco-subscribe .gtco-heading {
+#try-me .gtco-heading {
   margin-bottom: 30px;
 }
-#gtco-subscribe .gtco-heading h2 {
+#try-me .gtco-heading h2 {
   margin-bottom: 0;
 }
 
