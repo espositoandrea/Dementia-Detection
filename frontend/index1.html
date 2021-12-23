@@ -66,6 +66,11 @@
     .bg-secondary {
       background-color: #333333 !important;
     }
+
+    form {
+      text-align: center;
+    }
+
     footer {
       background-color: #000;
       height: 50px;
@@ -109,67 +114,83 @@
 
     <section id="try-me" class="text-center py-5 bg-secondary">
       <div class="container try-me py-5" id="predict">
-        <div class="col-lg-12 text-center">
+        <div class="col-lg-12 text-center mb-5">
           <h2>Try it out!</h2>
-          <p>Load a frame of a PET scans and let the system check it.</p>
+          <p>The system is capable of analyzing a single frame of a PET scans and giving your the probability of being affected by Dementia.</p>
+          <p>Upload a frame of a PET scans and let the system analyze it.</p>
         </div>
-        <div class="row">
-          <form class="form-inline row" method="post" action="http://localhost:8080/predict/" id="predict-form"
+        <div class="row justify-content-md-center">
+          <form class="form-inline" method="post" action="http://localhost:8080/predict/" id="predict-form"
             enctype="multipart/form-data">
-            <div class="col-md-4 col-sm-4">
-              <div class="form-group">
-                <label for="frame" class="form-label visually-hidden text-center">Select your image</label>
-                <input type="file" accept="image/png" class="form-control form-control-lg" id="frame" name="image">
+            <div class="row justify-content-md-center">
+              <div class="col-md-4 col-sm-4 mb-5">
+                <div class="form-group">
+                  <label for="frame" class="form-label visually-hidden text-center">Select your image</label>
+                  <input type="file" accept="image/png" class="form-control form-control-lg" id="frame" name="image">
+                </div>
               </div>
             </div>
 
-            <div class="col-md-4 col-sm-4">
-              <div class="form-group">
-                <label for="predict-format" class="visually-hidden">Report type</label>
-                <select name="format" class="form-select" id="predict-format">
-                  <option class="form-option" value="html">HTML</option>
-                  <option class="form-option" value="json">JSON</option>
-                  <option class="form-option" value="txt">TXT</option>
-                </select>
+            <div class="row justify-content-md-center">
+              <div class="col-md-4 col-sm-4 mb-5">
+                <div class="form-group text-center">
+                  <label for="predict-format" class="visually-hidden">Report type</label>
+                  <select name="format" class="form-select" id="predict-format">
+                    <option class="form-option" value="html">HTML</option>
+                    <option class="form-option" value="json">JSON</option>
+                    <option class="form-option" value="txt">TXT</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="col-md-4 col-sm-4">
-              <button type="submit" class="btn btn-primary" style="width: 100%;">Analyze</button>
+            <div class="row justify-content-md-center">
+              <div class="col-md-4 col-sm-4 mb-5">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Analyze</button>
+              </div>
             </div>
+
           </form>
         </div>
       </div>
     </section>
 
     <section id="report" class="text-center py-5 bg-secondary">
-      <div class="container try-me py-5" id="report-div">
-        <div>
-          <h2>Report</h2>
-          <p>Load a PET scan and let the system check it.</p>
+      <div class="container try-me py-5" id="report">
+        <div class="col-lg-12 text-center mb-5">
+          <h2>Analyze a report!</h2>
+          <p>You can also give the system a complete PET scan. It will be able to analyze it and make a report based on the 20 most important frames.</p>
+          <p>Upload a PET scan and let the system analyze it.</p>
         </div>
-        <div class="row">
-          <form class="form-inline row" method="post" action="http://localhost:8080/report" id="report-form"
+        <div class="row justify-content-md-center">
+          <form class="form-inline" method="post" action="http://localhost:8080/report/" id="report-form"
             enctype="multipart/form-data">
-            <div class="col-md-4 col-sm-4">
-              <div class="form-group">
-                <label for="scan" class="form-control visually-hidden text-center">Select your scan</label>
-                <input type="file" accept="image/nii" class="form-control" id="scan" name="scan"
-                  placeholder="Your scan">
+            <div class="row justify-content-md-center">
+              <div class="col-md-4 col-sm-4 mb-5">
+                <div class="form-group">
+                  <label for="frame" class="form-label visually-hidden text-center">Select your scan</label>
+                  <input type="file" accept="image/png" class="form-control form-control-lg" id="scan" name="scan">
+                </div>
               </div>
             </div>
-            <div class="col-md-4 col-sm-4">
-              <div class="form-group">
-                <label for="report-format" class="visually-hidden">Report type</label>
-                <select name="format" class="form-select" id="report-format">
-                  <option class="form-option" value="html">HTML</option>
-                  <option class="form-option" value="json">JSON</option>
-                  <option class="form-option" value="txt">TXT</option>
-                </select>
+
+            <div class="row justify-content-md-center">
+              <div class="col-md-4 col-sm-4 mb-5">
+                <div class="form-group text-center">
+                  <label for="predict-format" class="visually-hidden">Report type</label>
+                  <select name="format" class="form-select" id="predict-format">
+                    <option class="form-option" value="html">HTML</option>
+                    <option class="form-option" value="json">JSON</option>
+                    <option class="form-option" value="txt">TXT</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="col-md-4 col-sm-4">
-              <button type="submit" class="btn btn-primary" style="width: 100%;">Analyze</button>
+            <div class="row justify-content-md-center">
+              <div class="col-md-4 col-sm-4 mb-5">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Analyze</button>
+              </div>
             </div>
+
           </form>
         </div>
       </div>
