@@ -9,6 +9,13 @@ $(window).scroll(function () {
 
 
 
+// Change the name of the inputfile when something is loaded
+
+$('.inputfile').on('change', function() {
+  console.log($(this));
+  $(this).prev().text($(this).prop('files')[0].name);
+});
+
 
 /* attach a submit handler to the form */
 $("#predict-form").submit(function (event) {

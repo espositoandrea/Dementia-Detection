@@ -22,6 +22,28 @@
     -o-transition: 0.5s;
     transition: 0.5s;
   }
+
+  .try-me .form-label {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 16px !important;
+    width: 100%;
+    border: 2px solid transparent !important;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    text-align: center;
+    padding: 3%;
+  }
+  
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
   
   .try-me .form-select {
     background: rgba(255, 255, 255, 0.2);
@@ -32,6 +54,7 @@
     -webkit-transition: 0.5s;
     -o-transition: 0.5s;
     transition: 0.5s;
+    text-align: center;
   }
 
   .try-me .form-control:focus {
