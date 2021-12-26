@@ -9,8 +9,8 @@ import nibabel as nib
 import numpy as np
 import tensorflow as tf
 from fastapi import FastAPI, File, Query, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
+from starlette.middleware.cors import CORSMiddleware
 
 from ..experiment.images2frames import normalize, resize_to_input_shape
 from .monitoring import instrumentator
@@ -49,10 +49,14 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
+    expose_headers=['X-predicted-probability']
 )
-instrumentator.instrument(app).expose(
-    app, include_in_schema=False, should_gzip=True)
+
+@app.on_event("startup")
+async def startup_event():
+    instrumentator.instrument(app).expose(
+        app, include_in_schema=False, should_gzip=True)
 
 
 @app.post("/predict")
