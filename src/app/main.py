@@ -9,6 +9,7 @@ import nibabel as nib
 import numpy as np
 import tensorflow as tf
 from fastapi import FastAPI, File, Query, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 
 from ..experiment.images2frames import normalize, resize_to_input_shape
@@ -44,6 +45,12 @@ def save_upload_file_tmp(upload_file: UploadFile) -> Path:
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 instrumentator.instrument(app).expose(
     app, include_in_schema=False, should_gzip=True)
 
