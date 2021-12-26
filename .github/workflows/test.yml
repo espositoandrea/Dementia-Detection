@@ -1,4 +1,4 @@
-name: Linting
+name: Test
 
 on:
   # we can ignore the main branch as it is covered by the building action
