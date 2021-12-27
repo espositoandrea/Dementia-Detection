@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: se4airegistry.azurecr.io
+        username: ${{ secrets.acr_se4airegistry_username }}
+        password: ${{ secrets.acr_se4airegistry_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/frontend" -f  "frontend/Dockerfile" -t se4airegistry.azurecr.io/memento-frontend:${{ github.sha }} --label dockerfile-path=frontend/Dockerfile
+        docker push se4airegistry.azurecr.io/memento-frontend:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_se4aicluster_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep se4aicluster848e | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace se4aicluster848e`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: se4aicluster848e
+        container-registry-url: se4airegistry.azurecr.io
+        container-registry-username: ${{ secrets.acr_se4airegistry_username }}
+        container-registry-password: ${{ secrets.acr_se4airegistry_password }}
+        secret-name: se4aiclusterdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: se4aicluster848e
+        manifests: |
+          manifests/deployment-1.yml
+          manifests/service-1.yml
+        images: |
+          se4airegistry.azurecr.io/memento-frontend:${{ github.sha }}
+        imagepullsecrets: |
+          se4aiclusterdockerauth

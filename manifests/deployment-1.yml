@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "memento-frontend"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "memento-frontend"
+  template:
+    metadata:
+      labels:
+        app: "memento-frontend"
+    spec:
+      containers:
+        - name: "memento-frontend"
+          image: "se4airegistry.azurecr.io/memento-frontend"
+          ports:
+          - containerPort: 80

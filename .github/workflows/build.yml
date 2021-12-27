@@ -98,7 +98,7 @@ jobs:
         run: |
           export GDRIVE_CREDENTIALS_DATA='${{ secrets.GDRIVE_CREDENTIALS_DATA }}'
           dvc pull train
-        
+
       - name: Add version to __init__.py
         run: |
           branch=`git rev-parse --abbrev-ref HEAD`
@@ -141,7 +141,6 @@ jobs:
           hash=`git rev-parse --short HEAD`
           sed -i "s/__VERSION__/$branch-$hash/" frontend/*.html
 
-
       - name: Build frontend image and push to registry
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
@@ -155,3 +154,26 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  publish:
+    needs:
+      - build-backend
+      - build-frontend
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Azure CLI script file
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          cd $GITHUB_WORKSPACE/kubernetes
+          cat backend-deployment.yaml frontend-deployment.yaml > deployment.yaml
+          branch=`git rev-parse --abbrev-ref HEAD`
+          hash=`git rev-parse --short HEAD`
+          sed -i "s/:latest/:$branch-$hash/" deployment.yaml
+          kubectl apply -f deployment.yaml
