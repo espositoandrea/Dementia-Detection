@@ -31,4 +31,5 @@ spec:
     spec:
       containers:
         - name: httpserver
-          image: "espositoandrea/memento-frontend:0.0.1"
+          image: "espositoandrea/memento-frontend:latest"
+          imagePullPolicy: Always

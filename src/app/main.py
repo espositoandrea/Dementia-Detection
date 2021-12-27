@@ -13,6 +13,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from starlette.middleware.cors import CORSMiddleware
 
 from ..experiment.images2frames import normalize, resize_to_input_shape
+from . import __version__
 from .monitoring import instrumentator
 
 model = tf.keras.models.load_model('data/model/memento.h5')
@@ -127,4 +128,4 @@ def report(
 
 @app.get("/")
 def root():
-    return {"status": "ok"}
+    return {"status": "ok", "version": __version__}

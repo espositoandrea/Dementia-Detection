@@ -38,7 +38,10 @@ def random_image():
 def test_root():
     response = client.get('/')
     assert response.status_code == 200
-    assert response.json() == {"status": "ok"}
+    body = response.json()
+    assert "status" in body
+    assert "version" in body
+    assert body["status"] == "ok"
 
 
 def test_predict(random_image):

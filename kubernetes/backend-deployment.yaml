@@ -31,7 +31,8 @@ spec:
     spec:
       containers:
         - name: memento
-          image: "espositoandrea/memento-backend:0.0.1"
+          image: "espositoandrea/memento-backend:latest"
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080
