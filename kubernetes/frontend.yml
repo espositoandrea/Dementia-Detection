@@ -1,4 +1,20 @@
-apiVersion : apps/v1
+apiVersion: v1
+kind: Service
+metadata:
+  name: "memento-frontend"
+  labels:
+    app: "memento-frontend"
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: "memento-frontend"
+---
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "memento-frontend"
@@ -16,4 +32,4 @@ spec:
         - name: "memento-frontend"
           image: "se4airegistry.azurecr.io/memento-frontend"
           ports:
-          - containerPort: 80
+            - containerPort: 80
