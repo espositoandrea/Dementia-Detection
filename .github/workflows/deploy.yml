@@ -112,11 +112,6 @@ jobs:
           export GDRIVE_CREDENTIALS_DATA='${{ secrets.GDRIVE_CREDENTIALS_DATA }}'
           dvc pull train
 
-      - name: Add version to __init__.py
-        run: |
-          hash=`git rev-parse --short HEAD`
-          sed -i "s/__version__ = '.*'/__version__ = '$hash'/" src/app/__init__.py
-
       - name: Set up cache for Docker
         uses: actions/cache@v2
         with:
