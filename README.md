@@ -6,8 +6,11 @@
         <a href="https://github.com/niccolopetti">Niccolò Petti</a>
     </p>
   <p>Exam Project: <em>Software Engineering for AI-Enabled System</em></p>
-    <p><a href="https://github.com/se4ai2122-cs-uniba/Dementia-Detection/actions/workflows/deploy.yml"><img src="https://github.com/se4ai2122-cs-uniba/Dementia-Detection/workflows/Deploy/badge.svg"></a>
-    <a href="https://github.com/se4ai2122-cs-uniba/Dementia-Detection/wiki"><img src="https://shields.io/badge/Documentation-wiki-informational?style=flat&logo=github"></a></p>
+    <p>
+        <a href="https://github.com/se4ai2122-cs-uniba/Dementia-Detection/actions/workflows/deploy.yml"><img src="https://github.com/se4ai2122-cs-uniba/Dementia-Detection/workflows/Deploy/badge.svg"></a>
+        <a href="https://github.com/se4ai2122-cs-uniba/Dementia-Detection/wiki"><img src="https://shields.io/badge/Documentation-wiki-informational?style=flat&logo=github"></a>
+        <a href="http://status.mementoai.software"><img src="https://betteruptime.com/status-badges/v1/monitor/bgcj.svg" alt="Better Uptime Status"></a>
+    </p>
   <p><sup><a href="https://github.com/espositoandrea/Detecting-Alzheimer-Using-Amiloyd-PET-Scans">original repository</a></sup></p>
 </div>
 
