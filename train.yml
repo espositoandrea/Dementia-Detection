@@ -44,6 +44,7 @@ jobs:
       - name: Check raw data
         run: |
           great_expectations --v3-api checkpoint run clinical-data
+          great_expectations --v3-api checkpoint run pup
       - name: Run pipeline
         run: |
           pipenv run dvc repro
@@ -51,7 +52,6 @@ jobs:
         run: |
           great_expectations --v3-api checkpoint run labelled-images
           great_expectations --v3-api checkpoint run labels
-          great_expectations --v3-api checkpoint run pup
       - name: Push results
         run: |
           dvc push
