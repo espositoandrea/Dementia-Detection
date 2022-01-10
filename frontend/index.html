@@ -117,7 +117,7 @@
 		</header>
 
 
-		<section id="try-me" class="text-center py-5 bg-secondary text-white">
+		<section id="try-me" class="text-center py-5 px-3 bg-secondary text-white">
 			<div class="col-lg-12 text-center mb-5">
 				<h2>Try it out!</h2>
 				<p class="lead">Upload a frame of a PET scans and let the system analyze it.</p>
@@ -127,14 +127,14 @@
 			<div class="row justify-content-md-center">
 				<form class="form-inline" method="post" action="http://api.mementoai.software/predict/" id="predict-form"
 					enctype="multipart/form-data">
-					<div class="row justify-content-md-center">
-						<div class="col-md-4 col-sm-4 mb-5">
+					<div class="row justify-content-md-center mb-5">
+						<div class="col-md-4 col-sm-4 mb-2">
 							<div class="form-group">
 								<label for="frame" class="form-label">Select your image</label>
 								<input type="file" accept="image/png" class="form-control" id="frame" name="image" required>
 							</div>
 						</div>
-						<div class="col-md-4 col-sm-4 mb-5">
+						<div class="col-md-4 col-sm-4 mb-2">
 							<div class="form-group text-center">
 								<label for="predict-format" class="form-label">Report type</label>
 								<select name="format" class="form-select" id="predict-format" required>
@@ -157,7 +157,7 @@
             </div>
 		</section>
 
-		<section id="report" class="text-center py-5 bg-light">
+		<section id="report" class="text-center py-5 px-3 bg-light">
 			<h2>Are you interested?</h2>
 			<p class="lead">Then provide your patients with a diagnosis using our model!</p>
 			<a href="analyze.html" class="btn btn-primary">Analyze a PET Scan</a>

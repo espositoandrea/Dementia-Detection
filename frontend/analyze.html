@@ -110,7 +110,7 @@
         </header>
 
 
-        <section class="text-center py-5">
+        <section class="text-center py-5 px-3">
             <div class="col-lg-12 text-center mb-5">
                 <h2>Analyze a Scan</h2>
                 <p class="lead">Upload a PET scan and get a diagnosis</p>
@@ -118,15 +118,15 @@
             <div class="row justify-content-md-center">
                 <form class="form-inline" method="post" action="http://api.mementoai.software/report/" id="analyze-form"
                     enctype="multipart/form-data">
-                    <div class="row justify-content-md-center">
-                        <div class="col-4 col-4 mb-5">
+                    <div class="row justify-content-md-center mb-5">
+                        <div class="col-md-4 col-sm-4 mb-2">
                             <div class="form-group">
                                 <label for="frame" class="form-label">Select your image</label>
                                 <input type="file" accept="image/nii" class="form-control" id="frame" name="scan"
                                     required>
                             </div>
                         </div>
-                        <div class="col-4 col-4 mb-5">
+                        <div class="col-md-4 col-sm-4 mb-2">
                             <div class="form-group text-center">
                                 <label for="predict-format" class="form-label">Report format</label>
                                 <select name="format" class="form-select" id="predict-format" required>
