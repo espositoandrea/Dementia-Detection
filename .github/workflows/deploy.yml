@@ -4,6 +4,14 @@ on:
     branches: [main]
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
+    paths:
+      - "src/**"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "Pipfile"
+      - "Pipfile.lock"
+      - "kubernetes/**"
+      - "frontend/**"
 env:
   azure_namespace: memento
 jobs:
